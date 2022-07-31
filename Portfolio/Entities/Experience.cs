@@ -27,7 +27,7 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume { get; set; }
+        public Resume Resume { get; set; } = null!;
 
         public Experience(string title, string company, DateTime from)
         {
@@ -50,7 +50,7 @@ namespace Portfolio.Entities
         public int ExperienceId { get; set; }
 
         [ForeignKey("ExperienceId")]
-        public Experience? Experience { get; set; }
+        public Experience Experience { get; set; } = null!;
 
         public ExperienceDescription(string description)
         {

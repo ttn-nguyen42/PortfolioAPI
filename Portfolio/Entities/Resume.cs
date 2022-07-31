@@ -29,6 +29,11 @@ namespace Portfolio.Entities
         [MaxLength(100)]
         public string Email { get; set; }
 
+        /*
+         * Cascade delete: When a child is deleted (i.e TechnicalSkill), its parent will not reference to it anymore
+         * When its parent is deleted, itself are also deleted
+         */
+
         public ICollection<TechnicalSkill> Skills = new List<TechnicalSkill>();
 
         public ICollection<Experience> Experience = new List<Experience>();
@@ -74,7 +79,7 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume { get; set; }
+        public Resume Resume { get; set; } = null!;
 
         public PersonalLink(string name, string link)
         {

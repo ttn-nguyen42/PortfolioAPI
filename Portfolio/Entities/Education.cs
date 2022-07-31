@@ -28,7 +28,7 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume { get; set; }
+        public Resume Resume { get; set; } = null!;
 
         public Education(string school, string major)
         {
@@ -50,7 +50,7 @@ namespace Portfolio.Entities
         public int EducationId { get; set; }
 
         [ForeignKey("EducationId")]
-        public Education? Education { get; set; }
+        public Education Education { get; set; } = null!;
 
         public EducationDescription(string description)
         {

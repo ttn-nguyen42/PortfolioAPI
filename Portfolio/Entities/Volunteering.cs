@@ -26,7 +26,7 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume { get; set; }
+        public Resume Resume { get; set; } = null!;
 
         public Volunteering(string title, string organization)
         {
@@ -48,7 +48,7 @@ namespace Portfolio.Entities
         public int VolunteeringId { get; set; }
 
         [ForeignKey("VolunteeringId")]
-        public Volunteering? Volunteering { get; set; }
+        public Volunteering Volunteering { get; set; } = null!;
 
         public VolunteeringDescription(string description)
         {

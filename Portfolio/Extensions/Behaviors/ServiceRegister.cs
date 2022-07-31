@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.StaticFiles;
 using Portfolio.Contexts;
-using Portfolio.Repositories.Implementations;
-using Portfolio.Repositories.Interfaces;
 
 namespace Portfolio.Extensions.Behaviors
 {
@@ -20,7 +18,6 @@ namespace Portfolio.Extensions.Behaviors
             /*
              * Repositories
              */
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }

@@ -23,15 +23,16 @@ namespace Portfolio.Entities
 
         public int TypeId { get; set; }
 
+        // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
         public TechnicalSkillType? Type { get; set; }
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume { get; set; }
+        public Resume Resume { get; set; } = null!;
 
-        public TechnicalSkill(string language, string name, int typeId)
+        public TechnicalSkill(string language, string name)
         {
             Language = language;
             Name = name;
@@ -51,7 +52,7 @@ namespace Portfolio.Entities
         public int TechnicalSkillId { get; set; }
 
         [ForeignKey("TechnicalSkillId")]
-        public TechnicalSkill? TechnicalSkill { get; set; }
+        public TechnicalSkill TechnicalSkill { get; set; } = null!;
 
         public TechnicalSkillDescription(string description)
         {

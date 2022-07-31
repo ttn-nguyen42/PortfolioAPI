@@ -25,13 +25,14 @@ namespace Portfolio.Entities
 
         public int TypeId { get; set; }
 
+        // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
         public ActivityType? Type { get; set; }
 
         public ICollection<ActivityLink> Links = new List<ActivityLink>();
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume;
+        public Resume Resume { get; set; } = null!;
 
         public int ResumeId;
 
@@ -56,7 +57,7 @@ namespace Portfolio.Entities
         public int ActivityId { get; set; }
 
         [ForeignKey("ActivityId")]
-        public Activity? Activity { get; set; }
+        public Activity Activity { get; set; } = null!;
 
         public ActivityDescription(string description)
         {
@@ -97,7 +98,7 @@ namespace Portfolio.Entities
         public int ActivityId { get; set; }
 
         [ForeignKey("ActivityId")]
-        public Activity? Activity { get; set; }
+        public Activity Activity { get; set; } = null!;
 
         public ActivityLink(string name, string link)
         {

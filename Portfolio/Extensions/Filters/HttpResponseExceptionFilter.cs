@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Portfolio.Extensions.Exceptions;
-using Portfolio.Models;
 
 namespace Portfolio.Extensions.Filters
 {
@@ -15,12 +14,12 @@ namespace Portfolio.Extensions.Filters
         {
             if (context.Exception is HttpResponseException exception)
             {
-                ExceptionMessage message = new(exception.StatusCode, exception.Message);
-                context.Result = new ObjectResult(message)
-                {
-                    StatusCode = message.StatusCode,
-                };
-                context.ExceptionHandled = true;
+                //ExceptionMessage message = new(exception.StatusCode, exception.Message);
+                //context.Result = new ObjectResult(message)
+                //{
+                //    StatusCode = message.StatusCode,
+                //};
+                //context.ExceptionHandled = true;
             }
         }
     }

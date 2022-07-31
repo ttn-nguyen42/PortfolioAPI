@@ -11,6 +11,12 @@ namespace Portfolio.Contexts
          */
 
         /*
+        * Resume
+        */
+        public DbSet<Resume> Resumes { get; set; } = null!;
+        public DbSet<PersonalLink> PersonalLinks { get; set; } = null!;
+
+        /*
          * Technical Skill
          */
         public DbSet<TechnicalSkillType> TechnicalSkillTypes { get; set; } = null!;
@@ -52,12 +58,6 @@ namespace Portfolio.Contexts
         public DbSet<ActivityLink> ActivityLinks { get; set; } = null!;
 
         /*
-         * Resume
-         */
-        public DbSet<Resume> Resumes { get; set; } = null!;
-        public DbSet<PersonalLink> PersonalLinks { get; set; } = null!;
-
-        /*
          * Server configurations
          */
         private readonly string _serverUrl = string.Empty;
@@ -77,12 +77,14 @@ namespace Portfolio.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
+            ContextBuilder.BuildResume(builder);
             ContextBuilder.BuildTechnicalSkill(builder);
             ContextBuilder.BuildExperience(builder);
             ContextBuilder.BuildEducation(builder);
             ContextBuilder.BuildVolunteering(builder);
             ContextBuilder.BuildQualification(builder);
-            ContextBuilder.BuildResume(builder);
             ContextBuilder.BuildCertificate(builder);
             ContextBuilder.BuildActivity(builder);
             ContextBuilder.BuildProject(builder);

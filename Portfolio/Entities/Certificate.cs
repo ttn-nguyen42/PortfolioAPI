@@ -27,15 +27,16 @@ namespace Portfolio.Entities
 
         public int TypeId;
 
+        // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
         public CertificateType? Type;
 
         public ICollection<CertificateLink> Links = new List<CertificateLink>();
 
         [ForeignKey("ResumeId")]
-        public Resume? Resume;
+        public Resume Resume { get; set; } = null!;
 
-        public int ResumeId;
+        public int ResumeId { get; set; }
 
         public Certificate(string name, string issuerId, string instructor, DateTime time)
         {
@@ -59,7 +60,7 @@ namespace Portfolio.Entities
         public int CertificateId { get; set; }
 
         [ForeignKey("CertificateId")]
-        public Certificate? Certificate { get; set; }
+        public Certificate Certificate { get; set; } = null!;
 
         public CertificateDescription(string description)
         {
@@ -85,7 +86,7 @@ namespace Portfolio.Entities
         public int CertificateId { get; set; }
 
         [ForeignKey("CertificateId")]
-        public Certificate? Certificate { get; set; }
+        public Certificate Certificate { get; set; } = null!;
 
         public CertificateLink(string name, string link)
         {

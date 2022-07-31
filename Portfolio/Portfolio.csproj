@@ -30,8 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Additions\" />
-    <Folder Include="Models\Updates\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Profiles\" />
+    <Folder Include="Repositories\Implementations\" />
+    <Folder Include="Repositories\Interfaces\" />
   </ItemGroup>
 
 </Project>
