@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio.Entities
 {
-    public class Education
+    public class Experience
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,33 +11,33 @@ namespace Portfolio.Entities
 
         [Required]
         [MaxLength(100)]
-        public string School { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        [MaxLength(150)]
-        public string Major { get; set; }
+        [MaxLength(100)]
+        public string Company { get; set; }
 
+        [Required]
         public DateTime From { get; set; }
 
         public DateTime? To { get; set; } = null;
 
-        public float? Average { get; set; } = null;
-
-        public ICollection<EducationDescription> Descriptions = new List<EducationDescription>();
+        public ICollection<ExperienceDescription> Descriptions = new List<ExperienceDescription>();
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
         public Resume? Resume { get; set; }
 
-        public Education(string school, string major)
+        public Experience(string title, string company, DateTime from)
         {
-            School = school;
-            Major = major;
+            Title = title;
+            Company = company;
+            From = from;
         }
     }
 
-    public class EducationDescription
+    public class ExperienceDescription
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -47,12 +47,12 @@ namespace Portfolio.Entities
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public int EducationId { get; set; }
+        public int ExperienceId { get; set; }
 
-        [ForeignKey("EducationId")]
-        public Education? Education { get; set; }
+        [ForeignKey("ExperienceId")]
+        public Experience? Experience { get; set; }
 
-        public EducationDescription(string description)
+        public ExperienceDescription(string description)
         {
             Description = description;
         }

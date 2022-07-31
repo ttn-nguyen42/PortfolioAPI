@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio.Entities
 {
-    public class Education
+    public class Volunteering
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,33 +11,31 @@ namespace Portfolio.Entities
 
         [Required]
         [MaxLength(100)]
-        public string School { get; set; }
+        public string Title { get; set; }
 
         [Required]
         [MaxLength(150)]
-        public string Major { get; set; }
+        public string Organization { get; set; }
 
         public DateTime From { get; set; }
 
         public DateTime? To { get; set; } = null;
 
-        public float? Average { get; set; } = null;
-
-        public ICollection<EducationDescription> Descriptions = new List<EducationDescription>();
+        public ICollection<VolunteeringDescription> Descriptions = new List<VolunteeringDescription>();
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
         public Resume? Resume { get; set; }
 
-        public Education(string school, string major)
+        public Volunteering(string title, string organization)
         {
-            School = school;
-            Major = major;
+            Title = title;
+            Organization = organization;
         }
     }
 
-    public class EducationDescription
+    public class VolunteeringDescription
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -47,12 +45,12 @@ namespace Portfolio.Entities
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public int EducationId { get; set; }
+        public int VolunteeringId { get; set; }
 
-        [ForeignKey("EducationId")]
-        public Education? Education { get; set; }
+        [ForeignKey("VolunteeringId")]
+        public Volunteering? Volunteering { get; set; }
 
-        public EducationDescription(string description)
+        public VolunteeringDescription(string description)
         {
             Description = description;
         }

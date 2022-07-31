@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio.Entities
 {
-    public class Education
+    public class Qualification
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -11,33 +11,29 @@ namespace Portfolio.Entities
 
         [Required]
         [MaxLength(100)]
-        public string School { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [MaxLength(150)]
-        public string Major { get; set; }
+        public string Issuer { get; set; }
 
-        public DateTime From { get; set; }
-
-        public DateTime? To { get; set; } = null;
-
-        public float? Average { get; set; } = null;
-
-        public ICollection<EducationDescription> Descriptions = new List<EducationDescription>();
+        public float? Score { get; set; } = null;
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
         public Resume? Resume { get; set; }
 
-        public Education(string school, string major)
+        public ICollection<QualificationDescription> Descriptions = new List<QualificationDescription>();
+
+        public Qualification(string name, string issuer)
         {
-            School = school;
-            Major = major;
+            Name = name;
+            Issuer = issuer;
         }
     }
 
-    public class EducationDescription
+    public class QualificationDescription
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -47,12 +43,12 @@ namespace Portfolio.Entities
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public int EducationId { get; set; }
+        [ForeignKey("QualificationId")]
+        public Qualification? Qualification { get; set; }
 
-        [ForeignKey("EducationId")]
-        public Education? Education { get; set; }
+        public int QualificationId { get; set; }
 
-        public EducationDescription(string description)
+        public QualificationDescription(string description)
         {
             Description = description;
         }
