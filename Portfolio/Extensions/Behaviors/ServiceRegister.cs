@@ -18,6 +18,7 @@ namespace Portfolio.Extensions.Behaviors
             /*
              * Repositories
              */
+            builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
         }
     }
 }
