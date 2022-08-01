@@ -23,12 +23,12 @@ namespace Portfolio.Entities
 
         public float? Average { get; set; } = null;
 
-        public ICollection<EducationDescription> Descriptions = new List<EducationDescription>();
+        public virtual ICollection<EducationDescription> Descriptions { get; set; } = new List<EducationDescription>();
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public Education(string school, string major)
         {
@@ -50,7 +50,7 @@ namespace Portfolio.Entities
         public int EducationId { get; set; }
 
         [ForeignKey("EducationId")]
-        public Education Education { get; set; } = null!;
+        public virtual Education Education { get; set; } = null!;
 
         public EducationDescription(string description)
         {

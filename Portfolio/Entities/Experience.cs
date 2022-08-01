@@ -22,12 +22,12 @@ namespace Portfolio.Entities
 
         public DateTime? To { get; set; } = null;
 
-        public ICollection<ExperienceDescription> Descriptions = new List<ExperienceDescription>();
+        public virtual ICollection<ExperienceDescription> Descriptions { get; set; } = new List<ExperienceDescription>();
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public Experience(string title, string company, DateTime from)
         {
@@ -50,7 +50,7 @@ namespace Portfolio.Entities
         public int ExperienceId { get; set; }
 
         [ForeignKey("ExperienceId")]
-        public Experience Experience { get; set; } = null!;
+        public virtual Experience Experience { get; set; } = null!;
 
         public ExperienceDescription(string description)
         {

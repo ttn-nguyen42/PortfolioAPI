@@ -68,6 +68,7 @@ namespace Portfolio.Contexts
 
         public PortfolioContext(IConfiguration configuration)
         {
+           
             _serverUrl = configuration["ConnectionSettings:Portfolio:ServerUrl"] ?? throw new ArgumentNullException(nameof(configuration));
             _serverPort = configuration["ConnectionSettings:Portfolio:ServerPort"] ?? throw new ArgumentNullException(nameof(configuration));
             _databaseName = configuration["ConnectionSettings:Portfolio:DatabaseName"] ?? throw new ArgumentNullException(nameof(configuration));
@@ -99,7 +100,7 @@ namespace Portfolio.Contexts
                     $"database={_databaseName}; " +
                     $"user={_databaseUser}; " +
                     $"password={_databasePassword}";
-                builder.UseMySql(settings, ServerVersion.AutoDetect(settings));
+                builder.UseLazyLoadingProxies().UseMySql(settings, ServerVersion.AutoDetect(settings));
             }
         }
 

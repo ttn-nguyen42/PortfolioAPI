@@ -19,18 +19,18 @@ namespace Portfolio.Entities
 
         public int? Proficiency { get; set; } = null;
 
-        public ICollection<TechnicalSkillDescription> Skills { get; set; } = new List<TechnicalSkillDescription>();
+        public virtual ICollection<TechnicalSkillDescription> Skills { get; set; } = new List<TechnicalSkillDescription>();
 
         public int TypeId { get; set; }
 
         // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
-        public TechnicalSkillType? Type { get; set; }
+        public virtual TechnicalSkillType? Type { get; set; }
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public TechnicalSkill(string language, string name)
         {
@@ -52,7 +52,7 @@ namespace Portfolio.Entities
         public int TechnicalSkillId { get; set; }
 
         [ForeignKey("TechnicalSkillId")]
-        public TechnicalSkill TechnicalSkill { get; set; } = null!;
+        public virtual TechnicalSkill TechnicalSkill { get; set; } = null!;
 
         public TechnicalSkillDescription(string description)
         {

@@ -9,6 +9,9 @@ namespace Portfolio.Profiles
             CreateMap<TechnicalSkill, TechnicalSkillWithoutParentDto>();
             CreateMap<TechnicalSkillType, TechnicalSkillTypeDto>();
             CreateMap<TechnicalSkillDescription, TechnicalSkillDescriptionWithoutParentDto>();
+            CreateMap<TechnicalSkillTypeCreationDto, TechnicalSkillType>();
+            CreateMap<TechnicalSkillDescriptionCreationDto, TechnicalSkillDescription>();
+            CreateMap<TechnicalSkillCreationDto, TechnicalSkill>();
         }
     }
 }

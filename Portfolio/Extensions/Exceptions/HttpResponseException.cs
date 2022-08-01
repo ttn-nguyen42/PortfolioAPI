@@ -3,6 +3,9 @@
     public class HttpResponseException : Exception
     {
         public int StatusCode { get; set; }
+
+        public ICollection<string> Errors { get; set; } = new List<string>();
+
         public HttpResponseException(int statusCode, string message) : base(message)
         {
             StatusCode = statusCode;

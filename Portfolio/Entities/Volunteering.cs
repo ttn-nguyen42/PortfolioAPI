@@ -21,12 +21,12 @@ namespace Portfolio.Entities
 
         public DateTime? To { get; set; } = null;
 
-        public ICollection<VolunteeringDescription> Descriptions = new List<VolunteeringDescription>();
+        public virtual ICollection<VolunteeringDescription> Descriptions { get; set; } = new List<VolunteeringDescription>();
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public Volunteering(string title, string organization)
         {
@@ -44,11 +44,10 @@ namespace Portfolio.Entities
         [Required]
         [MaxLength(200)]
         public string Description { get; set; }
-
         public int VolunteeringId { get; set; }
 
         [ForeignKey("VolunteeringId")]
-        public Volunteering Volunteering { get; set; } = null!;
+        public virtual Volunteering Volunteering { get; set; } = null!;
 
         public VolunteeringDescription(string description)
         {
