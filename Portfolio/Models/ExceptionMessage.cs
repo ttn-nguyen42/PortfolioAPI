@@ -6,6 +6,8 @@
 
         public int StatusCode { get; set; }
 
+        public IEnumerable<string> Errors { get; set; } = new List<string>();
+
         public ExceptionMessage(string message, int statusCode)
         {
             Message = message;

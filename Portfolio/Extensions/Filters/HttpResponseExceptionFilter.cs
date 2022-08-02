@@ -14,7 +14,10 @@ namespace Portfolio.Extensions.Filters
         {
             if (context.Exception is HttpResponseException exception)
             {
-                ExceptionMessage message = new(exception.Message, exception.StatusCode);
+                ExceptionMessage message = new ExceptionMessage(exception.Message, exception.StatusCode)
+                {
+                    Errors = exception.Errors,
+                };
                 context.Result = new ObjectResult(message)
                 {
                     StatusCode = message.StatusCode,

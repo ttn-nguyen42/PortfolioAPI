@@ -84,4 +84,36 @@ namespace Portfolio.Models
             Email = email;
         }
     }
+
+    public class ResumeUpdateDto
+    {
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string ShortBiography { get; set; }
+
+        [Required]
+        [MaxLength(800)]
+        public string Biography { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Location { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Email { get; set; }
+
+        public ResumeUpdateDto(string name, string shortBiography, string biography, string location, string email)
+        {
+            Name = name;
+            ShortBiography = shortBiography;
+            Biography = biography;
+            Location = location;
+            Email = email;
+        }
+    }
 }

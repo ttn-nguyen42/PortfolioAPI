@@ -33,14 +33,6 @@ namespace Portfolio.Controllers
         [HttpPost]
         public async Task<IActionResult> AddResume([FromBody] ResumeCreationDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                IEnumerable<string> errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                throw new HttpResponseException(400, "Bad request")
-                {
-                    Errors = errors.ToList(),
-                };
-            }
             Resume entity = _mapper.Map<Resume>(dto);
             _repository.AddResume(entity);
             if (await _repository.SaveChangesAsync())
@@ -52,6 +44,11 @@ namespace Portfolio.Controllers
             };
             throw new HttpResponseException(500, "Changes not saved");
         }
+
+        //[HttpPut("{resumeId}")]
+        //public async Task<IActionResult> UpdateResume([FromRoute] int resumeId, [FromBody] ResumeUpdateDto dto)
+        //{
+        //}
     }
 
 }
