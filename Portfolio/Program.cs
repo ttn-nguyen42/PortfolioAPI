@@ -37,7 +37,8 @@ namespace Portfolio
              * User requested services are registered here
              * Database contexts, repositories,...
              */
-            ServiceRegister.Register(builder);
+            ServiceRegister serviceRegister = new ServiceRegister(builder.Configuration);
+            serviceRegister.Register(builder);
 
             builder.Services.AddApiVersioning(setup =>
             {
