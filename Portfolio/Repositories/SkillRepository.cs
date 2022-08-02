@@ -6,13 +6,10 @@ namespace Portfolio.Repositories
     {
         public Task<IEnumerable<TechnicalSkillType>> GetSkillTypesAsync();
         public Task<TechnicalSkillType?> GetSkillTypeAsync(int typeId);
-        public Task<IEnumerable<TechnicalSkillDescription>> GetSkillDescriptionsAsync();
-        public Task<TechnicalSkillDescription?> GetSkillDescriptionAsync(int descId);
-        public Task<IEnumerable<TechnicalSkill>> GetSkillsAsync();
         public Task<TechnicalSkill?> GetSkillAsync(int skillId);
         public void AddSkillType(TechnicalSkillType payload);
-        public void AddSkillDescription(TechnicalSkillDescription payload);
         public void AddSkill(TechnicalSkill payload);
+        public void RemoveSkill(TechnicalSkill entity);
         public Task<bool> SaveChangesAsync();
     }
 
@@ -30,11 +27,6 @@ namespace Portfolio.Repositories
             _context.TechnicalSkills.Add(payload);
         }
 
-        public void AddSkillDescription(TechnicalSkillDescription payload)
-        {
-            _context.TechnicalSkillDescriptions.Add(payload);
-        }
-
         public void AddSkillType(TechnicalSkillType payload)
         {
             _context.TechnicalSkillTypes.Add(payload);
@@ -45,21 +37,6 @@ namespace Portfolio.Repositories
             return await _context.TechnicalSkills.FirstOrDefaultAsync(s => s.Id == skillId);
         }
 
-        public async Task<TechnicalSkillDescription?> GetSkillDescriptionAsync(int descId)
-        {
-            return await _context.TechnicalSkillDescriptions.FirstOrDefaultAsync(d => d.Id == descId);
-        }
-
-        public async Task<IEnumerable<TechnicalSkillDescription>> GetSkillDescriptionsAsync()
-        {
-            return await _context.TechnicalSkillDescriptions.ToListAsync();
-        }
-
-        public async Task<IEnumerable<TechnicalSkill>> GetSkillsAsync()
-        {
-            return await _context.TechnicalSkills.ToListAsync();
-        }
-
         public async Task<TechnicalSkillType?> GetSkillTypeAsync(int typeId)
         {
             return await _context.TechnicalSkillTypes.FirstOrDefaultAsync(t => t.Id == typeId);
@@ -68,6 +45,11 @@ namespace Portfolio.Repositories
         public async Task<IEnumerable<TechnicalSkillType>> GetSkillTypesAsync()
         {
             return await _context.TechnicalSkillTypes.ToListAsync();
+        }
+
+        public void RemoveSkill(TechnicalSkill entity)
+        {
+            _context.TechnicalSkills.Remove(entity);
         }
 
         public async Task<bool> SaveChangesAsync()

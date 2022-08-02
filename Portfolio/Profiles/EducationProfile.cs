@@ -8,6 +8,9 @@ namespace Portfolio.Profiles
         {
             CreateMap<Education, EducationWithoutParentDto>();
             CreateMap<EducationDescription, EducationDescriptionWithoutParentDto>();
+            CreateMap<EducationCreationDto, Education>();
+            CreateMap<EducationUpdateDto, Education>();
+            CreateMap<EducationDescriptionCreationDto, EducationDescription>();
         }
     }
 }

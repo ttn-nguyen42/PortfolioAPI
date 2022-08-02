@@ -25,7 +25,7 @@ namespace Portfolio.Controllers
             Resume? entity = await _repository.GetResumeAsync(id);
             if (entity is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             return Ok(_mapper.Map<ResumeDto>(entity));
         }
@@ -42,13 +42,25 @@ namespace Portfolio.Controllers
                     Id = entity.Id,
                 }, _mapper.Map<ResumeWithInfoAndAboutDto>(entity));
             };
-            throw new HttpResponseException(500, "Changes not saved");
+            throw new ApiException();
         }
 
-        //[HttpPut("{resumeId}")]
-        //public async Task<IActionResult> UpdateResume([FromRoute] int resumeId, [FromBody] ResumeUpdateDto dto)
-        //{
-        //}
+        [HttpPut("{resumeId}")]
+        public async Task<IActionResult> UpdateResume([FromRoute] int resumeId, [FromBody] ResumeUpdateDto dto)
+        {
+            Resume? resume = await _repository.GetResumeAsync(resumeId);
+            if (resume is null)
+            {
+                throw new ApiException(404, "Resume not found");
+            }
+            _mapper.Map(dto, resume);
+            if (await _repository.SaveChangesAsync())
+            {
+                // Can return NoContent but will takes one more request if a read is needed afterward
+                return Ok(resume);
+            }
+            throw new ApiException();
+        }
     }
 
 }

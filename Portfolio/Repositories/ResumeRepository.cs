@@ -6,6 +6,7 @@ namespace Portfolio.Repositories
     {
         public Task<Resume?> GetResumeAsync(int id);
         public void AddResume(Resume payload);
+
         public Task<bool> SaveChangesAsync();
     }
 
@@ -21,7 +22,6 @@ namespace Portfolio.Repositories
         public async Task<Resume?> GetResumeAsync(int id)
         {
             return await _context.Resumes.Where(r => r.Id == id)
-                                         //.Include(r => r.Skills)
                                          .FirstOrDefaultAsync();
         }
 

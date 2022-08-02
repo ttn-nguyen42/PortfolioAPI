@@ -95,4 +95,29 @@ namespace Portfolio.Models
             Name = name;
         }
     }
+
+    public class TechnicalSkillUpdateDto
+    {
+        [Required]
+        [MaxLength(100)]
+        public string Language { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        public int? Proficiency { get; set; } = null;
+
+        [Required]
+        public int TypeId { get; set; }
+
+        [Required]
+        public ICollection<TechnicalSkillDescriptionCreationDto> Skills { get; set; } = new List<TechnicalSkillDescriptionCreationDto>();
+
+        public TechnicalSkillUpdateDto(string language, string name)
+        {
+            Language = language;
+            Name = name;
+        }
+    }
 }

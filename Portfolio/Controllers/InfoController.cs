@@ -23,7 +23,7 @@ namespace Portfolio.Controllers
             Resume? entity = await _repository.GetResumeAsync(id);
             if (entity is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             return Ok(_mapper.Map<InfoDto>(entity));
         }

@@ -24,7 +24,7 @@ namespace Portfolio
             });
 
             builder.Services.AddControllers().AddNewtonsoftJson();
-            builder.Services.AddControllers(options => { options.Filters.Add<HttpResponseExceptionFilter>(); });
+            builder.Services.AddControllers(options => { options.Filters.Add<ApiExceptionFilter>(); });
             builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
                 ValidationFailureConfigurer.ConfigureValidationFailureOptions(options);

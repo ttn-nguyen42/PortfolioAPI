@@ -25,7 +25,7 @@ namespace Portfolio.Controllers
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             return Ok(_mapper.Map<ICollection<TechnicalSkillWithoutParentDto>>(resume.Skills));
         }
@@ -36,13 +36,13 @@ namespace Portfolio.Controllers
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             int typeId = dto.TypeId;
             TechnicalSkillType? type = await _skillRepository.GetSkillTypeAsync(typeId);
             if (type is null)
             {
-                throw new HttpResponseException(404, "Skill type not found");
+                throw new ApiException(404, "Skill type not found");
             }
             TechnicalSkill entity = _mapper.Map<TechnicalSkill>(dto);
             entity.Type = type;
@@ -52,7 +52,57 @@ namespace Portfolio.Controllers
             {
                 return Ok(_mapper.Map<TechnicalSkillWithoutParentDto>(entity));
             }
-            throw new HttpResponseException(500, "No changes happened");
+            throw new ApiException(500, "No changes happened");
+        }
+
+        [HttpPut("{skillId}")]
+        public async Task<IActionResult> UpdateSkill([FromRoute] int resumeId, [FromRoute] int skillId, [FromBody] TechnicalSkillUpdateDto dto)
+        {
+            Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
+            if (resume is null)
+            {
+                throw new ApiException(404, "Resume not found");
+            }
+            TechnicalSkill? skill = await _skillRepository.GetSkillAsync(skillId);
+            if (skill is null)
+            {
+                throw new ApiException(404, "Skill not found");
+            }
+            if (resume.Skills.AsParallel().FirstOrDefault(s => s.Id == skill.Id) is null)
+            {
+                throw new ApiException(406, "Update to skills not owned by yourself are not allowed");
+            }
+            _mapper.Map(dto, skill);
+            if (await _resumeRepository.SaveChangesAsync())
+            {
+                return Ok(skill);
+            }
+            throw new ApiException();
+        }
+
+        [HttpDelete("{skillId}")]
+        public async Task<IActionResult> DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
+        {
+            Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
+            if (resume is null)
+            {
+                throw new ApiException(404, "Resume not found");
+            }
+            TechnicalSkill? skill = await _skillRepository.GetSkillAsync(skillId);
+            if (skill is null)
+            {
+                throw new ApiException(404, "Skill not found");
+            }
+            if (resume.Skills.AsParallel().FirstOrDefault(s => s.Id == skill.Id) is null)
+            {
+                throw new ApiException(406, "Update to skills not owned by yourself are not allowed");
+            }
+            _skillRepository.RemoveSkill(skill);
+            if (await _skillRepository.SaveChangesAsync())
+            {
+                return Accepted();
+            }
+            throw new ApiException();
         }
     }
 
@@ -82,7 +132,7 @@ namespace Portfolio.Controllers
             TechnicalSkillType? type = await _repository.GetSkillTypeAsync(typeId);
             if (type is null)
             {
-                throw new HttpResponseException(404, "Skill type not found");
+                throw new ApiException(404, "Skill type not found");
             }
             return Ok(type);
         }
@@ -90,14 +140,6 @@ namespace Portfolio.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSkillType([FromBody] TechnicalSkillTypeCreationDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                IEnumerable<string> errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                throw new HttpResponseException(400, "Invalid input")
-                {
-                    Errors = errors.ToList(),
-                };
-            }
             TechnicalSkillType type = _mapper.Map<TechnicalSkillType>(dto);
             _repository.AddSkillType(type);
             if (await _repository.SaveChangesAsync())
@@ -107,7 +149,7 @@ namespace Portfolio.Controllers
                     TypeId = type.Id,
                 }, _mapper.Map<TechnicalSkillTypeDto>(type));
             }
-            throw new HttpResponseException(500, "No changes happened");
+            throw new ApiException();
         }
     }
 }

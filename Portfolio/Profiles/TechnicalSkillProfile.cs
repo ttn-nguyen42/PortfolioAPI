@@ -12,6 +12,7 @@ namespace Portfolio.Profiles
             CreateMap<TechnicalSkillTypeCreationDto, TechnicalSkillType>();
             CreateMap<TechnicalSkillDescriptionCreationDto, TechnicalSkillDescription>();
             CreateMap<TechnicalSkillCreationDto, TechnicalSkill>();
+            CreateMap<TechnicalSkillUpdateDto, TechnicalSkill>();
         }
     }
 }
