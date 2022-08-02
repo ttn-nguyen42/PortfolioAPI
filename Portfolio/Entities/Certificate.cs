@@ -23,18 +23,18 @@ namespace Portfolio.Entities
 
         public DateTime Time { get; set; }
 
-        public ICollection<CertificateDescription> Descriptions = new List<CertificateDescription>();
+        public virtual ICollection<CertificateDescription> Descriptions { get; set; } = new List<CertificateDescription>();
 
         public int TypeId;
 
         // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
-        public CertificateType? Type;
+        public virtual CertificateType? Type { get; set; }
 
-        public ICollection<CertificateLink> Links = new List<CertificateLink>();
+        public virtual ICollection<CertificateLink> Links { get; set; } = new List<CertificateLink>();
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public int ResumeId { get; set; }
 
@@ -60,7 +60,7 @@ namespace Portfolio.Entities
         public int CertificateId { get; set; }
 
         [ForeignKey("CertificateId")]
-        public Certificate Certificate { get; set; } = null!;
+        public virtual Certificate Certificate { get; set; } = null!;
 
         public CertificateDescription(string description)
         {
@@ -86,7 +86,7 @@ namespace Portfolio.Entities
         public int CertificateId { get; set; }
 
         [ForeignKey("CertificateId")]
-        public Certificate Certificate { get; set; } = null!;
+        public virtual Certificate Certificate { get; set; } = null!;
 
         public CertificateLink(string name, string link)
         {
@@ -108,7 +108,7 @@ namespace Portfolio.Entities
         public int CertificateId { get; set; }
 
         [ForeignKey("CertificateId")]
-        public Certificate? Certificate { get; set; }
+        public virtual Certificate? Certificate { get; set; }
 
         public CertificateType(string name)
         {

@@ -4,7 +4,7 @@ namespace Portfolio.Profiles
 {
     public class VolunteeringProfile: Profile
     {
-        VolunteeringProfile()
+        public VolunteeringProfile()
         {
             CreateMap<Volunteering, VolunteeringWithoutParentDto>();
             CreateMap<VolunteeringDescription, VolunteeringDescriptionWithoutParentDto>();

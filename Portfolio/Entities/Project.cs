@@ -25,20 +25,20 @@ namespace Portfolio.Entities
         [MaxLength(200)]
         public string Overview { get; set; }
 
-        public ICollection<ProjectDescription> Descriptions { get; set; } = new List<ProjectDescription>();
+        public virtual ICollection<ProjectDescription> Descriptions { get; set; } = new List<ProjectDescription>();
 
-        public ICollection<ProjectLink> Links { get; set; } = new List<ProjectLink>();
+        public virtual ICollection<ProjectLink> Links { get; set; } = new List<ProjectLink>();
 
         public int TypeId { get; set; }
 
         // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]        
-        public ProjectType? Type { get; set; }
+        public virtual ProjectType? Type { get; set; }
 
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public Project(string name, string role, string team, string overview)
         {
@@ -63,7 +63,7 @@ namespace Portfolio.Entities
         public int ProjectId { get; set; }
 
         [ForeignKey("ProjectId")]
-        public Project Project { get; set; } = null!;
+        public virtual Project Project { get; set; } = null!;
 
         public ProjectDescription(string description)
         {
@@ -113,7 +113,7 @@ namespace Portfolio.Entities
         public int ProjectId { get; set; }
 
         [ForeignKey("ProjectId")]
-        public Project Project { get; set; } = null!;
+        public virtual Project Project { get; set; } = null!;
 
         public ProjectLink(string name, string link)
         {

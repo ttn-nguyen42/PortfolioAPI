@@ -22,9 +22,9 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
-        public ICollection<QualificationDescription> Descriptions = new List<QualificationDescription>();
+        public virtual ICollection<QualificationDescription> Descriptions { get; set; } = new List<QualificationDescription>();
 
         public Qualification(string name, string issuer)
         {
@@ -44,9 +44,9 @@ namespace Portfolio.Entities
         public string Description { get; set; }
 
         [ForeignKey("QualificationId")]
-        public Qualification Qualification { get; set; } = null!;
+        public virtual Qualification Qualification { get; set; } = null!;
 
-        public int QualificationId { get; set; } 
+        public int QualificationId { get; set; }
 
         public QualificationDescription(string description)
         {

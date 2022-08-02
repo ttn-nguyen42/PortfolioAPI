@@ -21,18 +21,18 @@ namespace Portfolio.Entities
         [MaxLength(200)]
         public string Overview { get; set; }
 
-        public ICollection<ActivityDescription> Descriptions = new List<ActivityDescription>();
+        public virtual ICollection<ActivityDescription> Descriptions { get; set; } = new List<ActivityDescription>();
 
         public int TypeId { get; set; }
 
         // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
-        public ActivityType? Type { get; set; }
+        public virtual ActivityType? Type { get; set; }
 
-        public ICollection<ActivityLink> Links = new List<ActivityLink>();
+        public virtual ICollection<ActivityLink> Links { get; set; } = new List<ActivityLink>();
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public int ResumeId;
 
@@ -57,7 +57,7 @@ namespace Portfolio.Entities
         public int ActivityId { get; set; }
 
         [ForeignKey("ActivityId")]
-        public Activity Activity { get; set; } = null!;
+        public virtual Activity Activity { get; set; } = null!;
 
         public ActivityDescription(string description)
         {
@@ -98,7 +98,7 @@ namespace Portfolio.Entities
         public int ActivityId { get; set; }
 
         [ForeignKey("ActivityId")]
-        public Activity Activity { get; set; } = null!;
+        public virtual Activity Activity { get; set; } = null!;
 
         public ActivityLink(string name, string link)
         {

@@ -34,23 +34,23 @@ namespace Portfolio.Entities
          * When its parent is deleted, itself are also deleted
          */
 
-        public ICollection<TechnicalSkill> Skills = new List<TechnicalSkill>();
+        public virtual ICollection<TechnicalSkill> Skills { get; set; } = new List<TechnicalSkill>();
 
-        public ICollection<Experience> Experience = new List<Experience>();
+        public virtual ICollection<Experience> Experience { get; set; } = new List<Experience>();
 
-        public ICollection<Education> Education = new List<Education>();
+        public virtual ICollection<Education> Education { get; set; } = new List<Education>();
 
-        public ICollection<Volunteering> Volunteering = new List<Volunteering>();
+        public virtual ICollection<Volunteering> Volunteering { get; set; } = new List<Volunteering>();
 
-        public ICollection<Qualification> Qualification = new List<Qualification>();
+        public virtual ICollection<Qualification> Qualification { get; set; } = new List<Qualification>();
 
-        public ICollection<PersonalLink> PersonalLink = new List<PersonalLink>();
+        public virtual ICollection<PersonalLink> PersonalLink { get; set; } = new List<PersonalLink>();
 
-        public ICollection<Activity> Activities = new List<Activity>();
+        public virtual ICollection<Activity> Activities { get; set; } = new List<Activity>();
 
-        public ICollection<Certificate> Certificates = new List<Certificate>();
+        public virtual ICollection<Certificate> Certificates { get; set; } = new List<Certificate>();
 
-        public ICollection<Project> Projects = new List<Project>();
+        public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
         public Resume(string name, string shortBiography, string location, string email, string biography)
         {
@@ -79,7 +79,7 @@ namespace Portfolio.Entities
         public int ResumeId { get; set; }
 
         [ForeignKey("ResumeId")]
-        public Resume Resume { get; set; } = null!;
+        public virtual Resume Resume { get; set; } = null!;
 
         public PersonalLink(string name, string link)
         {

@@ -14,12 +14,12 @@ namespace Portfolio.Extensions.Filters
         {
             if (context.Exception is HttpResponseException exception)
             {
-                //ExceptionMessage message = new(exception.StatusCode, exception.Message);
-                //context.Result = new ObjectResult(message)
-                //{
-                //    StatusCode = message.StatusCode,
-                //};
-                //context.ExceptionHandled = true;
+                ExceptionMessage message = new(exception.Message, exception.StatusCode);
+                context.Result = new ObjectResult(message)
+                {
+                    StatusCode = message.StatusCode,
+                };
+                context.ExceptionHandled = true;
             }
         }
     }
