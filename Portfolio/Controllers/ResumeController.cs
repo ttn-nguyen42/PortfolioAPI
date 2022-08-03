@@ -20,6 +20,10 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet("{id}", Name = "GetResume")]
+        [ProducesResponseType(200, Type = typeof(ResumeDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetResume([FromRoute] int id)
         {
             Resume? entity = await _repository.GetResumeAsync(id);
@@ -31,6 +35,10 @@ namespace Portfolio.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(ResumeWithInfoAndAboutDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> AddResume([FromBody] ResumeCreationDto dto)
         {
             Resume entity = _mapper.Map<Resume>(dto);
@@ -46,6 +54,10 @@ namespace Portfolio.Controllers
         }
 
         [HttpPut("{resumeId}")]
+        [ProducesResponseType(200, Type = typeof(ResumeWithInfoAndAboutDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> UpdateResume([FromRoute] int resumeId, [FromBody] ResumeUpdateDto dto)
         {
             Resume? resume = await _repository.GetResumeAsync(resumeId);
@@ -57,7 +69,7 @@ namespace Portfolio.Controllers
             if (await _repository.SaveChangesAsync())
             {
                 // Can return NoContent but will takes one more request if a read is needed afterward
-                return Ok(resume);
+                return Ok(_mapper.Map<ResumeWithInfoAndAboutDto>(resume));
             }
             throw new ApiException();
         }

@@ -42,6 +42,10 @@ namespace Portfolio.Extensions.Behaviors
              */
             builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
             builder.Services.AddScoped<ISkillRepository, SkillRepository>();
+            builder.Services.AddScoped<IEducationRepository, EducationRepository>();
+            builder.Services.AddScoped<IExperienceRepository, ExperienceRepository>();
+            builder.Services.AddScoped<IQualificationRepository, QualificationRepository>();
+            builder.Services.AddScoped<IVolunteeringRepository, VolunteeringRepository>();
         }
     }
 }

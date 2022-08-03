@@ -13,7 +13,7 @@
 
         public string Email { get; set; }
 
-        public ICollection<PersonalLinkWithoutParentDto> links = new List<PersonalLinkWithoutParentDto>();
+        public ICollection<PersonalLinkWithoutParentDto> links { get; set; } = new List<PersonalLinkWithoutParentDto>();
 
         public InfoDto(string name, string shortBiography, string location, string email)
         {

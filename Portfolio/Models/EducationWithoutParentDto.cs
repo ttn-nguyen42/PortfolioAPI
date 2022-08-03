@@ -14,7 +14,7 @@
 
         public float? Average { get; set; } = null;
 
-        public ICollection<EducationDescriptionWithoutParentDto> Descriptions = new List<EducationDescriptionWithoutParentDto>();
+        public ICollection<EducationDescriptionWithoutParentDto> Descriptions { get; set; } = new List<EducationDescriptionWithoutParentDto>();
 
         public EducationWithoutParentDto(string school, string major, DateTime from)
         {
@@ -64,7 +64,7 @@
 
         public float? Average { get; set; } = null;
 
-        public ICollection<EducationDescriptionCreationDto> Descriptions = new List<EducationDescriptionCreationDto>();
+        public ICollection<EducationDescriptionCreationDto> Descriptions { get; set; } = new List<EducationDescriptionCreationDto>();
 
         public EducationCreationDto(string school, string major, DateTime from)
         {
@@ -90,7 +90,7 @@
 
         public float? Average { get; set; } = null;
 
-        public ICollection<EducationDescriptionCreationDto> Descriptions = new List<EducationDescriptionCreationDto>();
+        public ICollection<EducationDescriptionCreationDto> Descriptions { get; set; } = new List<EducationDescriptionCreationDto>();
 
         public EducationUpdateDto(string school, string major, DateTime from)
         {

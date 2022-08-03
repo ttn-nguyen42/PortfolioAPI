@@ -58,6 +58,12 @@ namespace Portfolio.Contexts
         public DbSet<ActivityLink> ActivityLinks { get; set; } = null!;
 
         /*
+         * Qualifications
+         */
+        public DbSet<Qualification> Qualifications { get; set; } = null!;
+        public DbSet<QualificationDescription> QualificationsDescriptions { get; set; } = null!;
+
+        /*
          * Server configurations
          */
 

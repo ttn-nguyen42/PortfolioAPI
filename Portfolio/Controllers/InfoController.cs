@@ -18,6 +18,9 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(InfoDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetInfo([FromRoute] int id)
         {
             Resume? entity = await _repository.GetResumeAsync(id);

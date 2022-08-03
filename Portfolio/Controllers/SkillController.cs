@@ -20,6 +20,9 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ICollection<TechnicalSkillWithoutParentDto>))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetSkills([FromRoute] int resumeId)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
@@ -31,6 +34,9 @@ namespace Portfolio.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(TechnicalSkillWithoutParentDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> AddSkill([FromRoute] int resumeId, [FromBody] TechnicalSkillCreationDto dto)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
@@ -56,6 +62,10 @@ namespace Portfolio.Controllers
         }
 
         [HttpPut("{skillId}")]
+        [ProducesResponseType(200, Type = typeof(TechnicalSkillWithoutParentDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> UpdateSkill([FromRoute] int resumeId, [FromRoute] int skillId, [FromBody] TechnicalSkillUpdateDto dto)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
@@ -75,12 +85,16 @@ namespace Portfolio.Controllers
             _mapper.Map(dto, skill);
             if (await _resumeRepository.SaveChangesAsync())
             {
-                return Ok(skill);
+                return Ok(_mapper.Map<TechnicalSkillWithoutParentDto>(skill));
             }
             throw new ApiException();
         }
 
         [HttpDelete("{skillId}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> DeleteSkill([FromRoute] int resumeId, [FromRoute] int skillId)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
@@ -121,12 +135,18 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(ICollection<TechnicalSkillTypeDto>))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetSkillTypes()
         {
-            return Ok(await _repository.GetSkillTypesAsync());
+            return Ok(_mapper.Map<TechnicalSkillTypeDto>(await _repository.GetSkillTypesAsync()));
         }
 
         [HttpGet("{typeId}", Name = "GetSkillType")]
+        [ProducesResponseType(200, Type = typeof(TechnicalSkillTypeDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetSkillType([FromRoute] int typeId)
         {
             TechnicalSkillType? type = await _repository.GetSkillTypeAsync(typeId);
@@ -134,10 +154,13 @@ namespace Portfolio.Controllers
             {
                 throw new ApiException(404, "Skill type not found");
             }
-            return Ok(type);
+            return Ok(_mapper.Map<TechnicalSkillTypeDto>(type));
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(TechnicalSkillTypeDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> AddSkillType([FromBody] TechnicalSkillTypeCreationDto dto)
         {
             TechnicalSkillType type = _mapper.Map<TechnicalSkillType>(dto);

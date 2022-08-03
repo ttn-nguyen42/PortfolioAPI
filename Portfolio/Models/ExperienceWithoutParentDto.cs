@@ -12,7 +12,7 @@
 
         public DateTime? To { get; set; } = null;
 
-        public ICollection<ExperienceDescriptionWithoutParentDto> Descriptions = new List<ExperienceDescriptionWithoutParentDto>();
+        public ICollection<ExperienceDescriptionWithoutParentDto> Descriptions { get; set; } = new List<ExperienceDescriptionWithoutParentDto>();
 
         public ExperienceWithoutParentDto(string title, string company, DateTime from)
         {
@@ -47,7 +47,7 @@
 
         public DateTime? To { get; set; } = null;
 
-        public ICollection<ExperienceDescriptionCreationDto> Descriptions = new List<ExperienceDescriptionCreationDto>();
+        public ICollection<ExperienceDescriptionCreationDto> Descriptions { get; set; } = new List<ExperienceDescriptionCreationDto>();
 
         public ExperienceCreationDto(string title, string company, DateTime from)
         {
@@ -63,7 +63,8 @@
         [MaxLength(200)]
         public string Description { get; set; }
 
-        public ExperienceDescriptionCreationDto(string description)        {
+        public ExperienceDescriptionCreationDto(string description)
+        {
             Description = description;
         }
 
@@ -83,7 +84,7 @@
 
         public DateTime? To { get; set; } = null;
 
-        public ICollection<ExperienceDescriptionCreationDto> Descriptions = new List<ExperienceDescriptionCreationDto>();
+        public ICollection<ExperienceDescriptionCreationDto> Descriptions { get; set; } = new List<ExperienceDescriptionCreationDto>();
 
         public ExperienceUpdateDto(string title, string company, DateTime from)
         {

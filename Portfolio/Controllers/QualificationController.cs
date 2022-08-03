@@ -4,107 +4,107 @@ namespace Portfolio.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/resumes/{id}/experiences")]
-    public class ExperienceController : ControllerBase
+    [Route("api/v{version:apiVersion}/resumes/{resumeId}/qualifications")]
+    public class QualificationController : ControllerBase
     {
-        private readonly IExperienceRepository _experienceRepository;
+        private readonly IQualificationRepository _qualificationRepository;
         private readonly IResumeRepository _resumeRepository;
         private readonly IMapper _mapper;
 
-        public ExperienceController(IExperienceRepository experienceRepository, IResumeRepository resumeRepository, IMapper mapper)
+        public QualificationController(IResumeRepository resumeRepository, IMapper mapper, IQualificationRepository qualificationRepository)
         {
-            _experienceRepository = experienceRepository
-                ?? throw new ArgumentNullException(nameof(experienceRepository));
             _resumeRepository = resumeRepository ?? throw new ArgumentNullException(nameof(resumeRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _qualificationRepository = qualificationRepository ?? throw new ArgumentNullException(nameof(qualificationRepository));
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ICollection<ExperienceWithoutParentDto>))]
+        [ProducesResponseType(200, Type = typeof(ICollection<QualificationWithoutParentDto>))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> GetExperiences([FromRoute] int resumeId)
+        public async Task<IActionResult> GetQualifications([FromRoute] int resumeId)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            return Ok(_mapper.Map<ICollection<ExperienceWithoutParentDto>>(resume.Experience));
+            return Ok(_mapper.Map<ICollection<QualificationWithoutParentDto>>(resume.Qualification));
         }
 
-        [HttpPost("{experienceId}")]
-        [ProducesResponseType(200, Type = typeof(ExperienceWithoutParentDto))]
+        [HttpPost]
+        [ProducesResponseType(200, Type = typeof(QualificationWithoutParentDto))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> AddExperience([FromRoute] int resumeId, [FromBody] ExperienceCreationDto dto)
+        public async Task<IActionResult> CreateQualification([FromRoute] int resumeId, [FromBody] QualificationCreationDto dto)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            Experience entity = _mapper.Map<Experience>(dto);
-            resume.Experience.Add(entity);
-            if (await _experienceRepository.SaveChangesAsync())
+            Qualification entity = _mapper.Map<Qualification>(dto);
+            resume.Qualification.Add(entity);
+            if (await _qualificationRepository.SaveChangesAsync())
             {
-                return Ok(_mapper.Map<ExperienceWithoutParentDto>(entity));
+                return Ok(_mapper.Map<QualificationWithoutParentDto>(entity));
             }
             throw new ApiException();
         }
 
-        [HttpPut("{experienceId}")]
-        [ProducesResponseType(200, Type = typeof(ExperienceWithoutParentDto))]
+        [HttpPut("{qualificationId}")]
+        [ProducesResponseType(200, Type = typeof(QualificationWithoutParentDto))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> UpdateExperience([FromRoute] int resumeId, [FromRoute] int experienceId, [FromBody] ExperienceUpdateDto dto)
+        public async Task<IActionResult> UpdateQualification([FromRoute] int resumeId, [FromRoute] int qualificationId, [FromBody] QualificationUpdateDto dto)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            Experience? entity = await _experienceRepository.GetExperienceAsync(experienceId);
+            Qualification? entity = await _qualificationRepository.GetQualificationAsync(qualificationId);
             if (entity is null)
             {
-                throw new ApiException(404, "Experience not found");
+                throw new ApiException(404, "Qualification not found");
             }
             if (resume.Experience.AsParallel().FirstOrDefault(e => e.Id == entity.Id) is null)
             {
-                throw new ApiException(406, "Update to experience not owned by yourself is not allowed");
+                throw new ApiException(406, "Update to qualification not owned by yourself is not allowed");
             }
             _mapper.Map(dto, entity);
-            if (await _experienceRepository.SaveChangesAsync())
+            if (await _qualificationRepository.SaveChangesAsync())
             {
-                return Ok(_mapper.Map<ExperienceWithoutParentDto>(entity));
+                return Ok(_mapper.Map<QualificationWithoutParentDto>(entity));
             }
             throw new ApiException();
+
         }
 
-        [HttpDelete]
+        [HttpDelete("{qualificationId}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> DeleteExperience([FromRoute] int resumeId, [FromRoute] int experienceId)
+        public async Task<IActionResult> DeleteQualification([FromRoute] int resumeId, [FromRoute] int qualificationId)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            Experience? entity = await _experienceRepository.GetExperienceAsync(experienceId);
+            Qualification? entity = await _qualificationRepository.GetQualificationAsync(qualificationId);
             if (entity is null)
             {
-                throw new ApiException(404, "Experience not found");
+                throw new ApiException(404, "Qualification not found");
             }
             if (resume.Experience.AsParallel().FirstOrDefault(e => e.Id == entity.Id) is null)
             {
-                throw new ApiException(406, "Update to experience not owned by yourself is not allowed");
+                throw new ApiException(406, "Update to qualification not owned by yourself is not allowed");
             }
-            _experienceRepository.DeleteExperience(entity);
-            if (await _experienceRepository.SaveChangesAsync())
+            _qualificationRepository.DeleteQualification(entity);
+            if (await _qualificationRepository.SaveChangesAsync())
             {
                 return Accepted();
             }

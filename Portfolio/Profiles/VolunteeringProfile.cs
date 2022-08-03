@@ -8,6 +8,9 @@ namespace Portfolio.Profiles
         {
             CreateMap<Volunteering, VolunteeringWithoutParentDto>();
             CreateMap<VolunteeringDescription, VolunteeringDescriptionWithoutParentDto>();
+            CreateMap<VolunteeringCreationDto, Volunteering>();
+            CreateMap<VolunteeringUpdateDto, Volunteering>();
+            CreateMap<VolunteeringDescriptionCreationDto, VolunteeringDescription>();
         }
     }
 }
