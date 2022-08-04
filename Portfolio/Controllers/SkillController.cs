@@ -91,7 +91,7 @@ namespace Portfolio.Controllers
         }
 
         [HttpDelete("{skillId}")]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(202)]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
@@ -136,7 +136,6 @@ namespace Portfolio.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(ICollection<TechnicalSkillTypeDto>))]
-        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
         public async Task<IActionResult> GetSkillTypes()
         {
@@ -167,10 +166,7 @@ namespace Portfolio.Controllers
             _repository.AddSkillType(type);
             if (await _repository.SaveChangesAsync())
             {
-                return CreatedAtRoute("GetSkillType", new
-                {
-                    TypeId = type.Id,
-                }, _mapper.Map<TechnicalSkillTypeDto>(type));
+                return Ok(_mapper.Map<TechnicalSkillTypeDto>(type));
             }
             throw new ApiException();
         }

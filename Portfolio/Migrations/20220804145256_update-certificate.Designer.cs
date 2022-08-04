@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio.Contexts;
 
@@ -10,9 +11,10 @@ using Portfolio.Contexts;
 namespace Portfolio.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    partial class PortfolioContextModelSnapshot : ModelSnapshot
+    [Migration("20220804145256_update-certificate")]
+    partial class updatecertificate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,14 +147,15 @@ namespace Portfolio.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("TypeId")
+                    b.Property<int>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ResumeId");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("TypeId")
+                        .IsUnique();
 
                     b.ToTable("Certificates");
                 });
@@ -210,12 +213,17 @@ namespace Portfolio.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("CertificateId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
 
                     b.ToTable("CertificateTypes");
                 });
@@ -719,8 +727,10 @@ namespace Portfolio.Migrations
                         .IsRequired();
 
                     b.HasOne("Portfolio.Entities.CertificateType", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
+                        .WithOne()
+                        .HasForeignKey("Portfolio.Entities.Certificate", "TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Resume");
 
@@ -742,6 +752,17 @@ namespace Portfolio.Migrations
                 {
                     b.HasOne("Portfolio.Entities.Certificate", "Certificate")
                         .WithMany("Links")
+                        .HasForeignKey("CertificateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Certificate");
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.CertificateType", b =>
+                {
+                    b.HasOne("Portfolio.Entities.Certificate", "Certificate")
+                        .WithMany()
                         .HasForeignKey("CertificateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
