@@ -41,6 +41,8 @@ namespace Portfolio.Models
         [MaxLength(100)]
         public string Email { get; set; }
 
+        public ICollection<PersonalLinkCreationDto> Links { get; set; } = new List<PersonalLinkCreationDto>();
+
         public ResumeCreationDto(string name, string shortBiography, string biography, string location, string email)
         {
             Name = name;
@@ -53,6 +55,8 @@ namespace Portfolio.Models
 
     public class ResumeWithInfoAndAboutDto
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string ShortBiography { get; set; }
@@ -63,7 +67,7 @@ namespace Portfolio.Models
 
         public string Email { get; set; }
 
-        public ICollection<TechnicalSkillDescriptionWithoutParentDto> Skills { get; set; } = new List<TechnicalSkillDescriptionWithoutParentDto>();
+        public ICollection<TechnicalSkillWithoutParentDto> Skills { get; set; } = new List<TechnicalSkillWithoutParentDto>();
 
         public ICollection<ExperienceWithoutParentDto> Experience { get; set; } = new List<ExperienceWithoutParentDto>();
 
@@ -106,6 +110,8 @@ namespace Portfolio.Models
         [Required]
         [MaxLength(100)]
         public string Email { get; set; }
+
+        public ICollection<PersonalLinkCreationDto> Links { get; set; } = new List<PersonalLinkCreationDto>();
 
         public ResumeUpdateDto(string name, string shortBiography, string biography, string location, string email)
         {

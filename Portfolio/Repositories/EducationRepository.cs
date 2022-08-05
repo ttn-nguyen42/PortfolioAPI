@@ -6,7 +6,7 @@ namespace Portfolio.Repositories
     {
         public Task<Education?> GetEducationAsync(int educationId);
 
-        public void AddEducation(Education entity);
+        public Task AddEducation(Education entity);
 
         public void DeleteEducation(Education entity);
 
@@ -22,9 +22,9 @@ namespace Portfolio.Repositories
             _context = context;
         }
 
-        public void AddEducation(Education entity)
+        public async Task AddEducation(Education entity)
         {
-            _context.Educations.Add(entity);
+            await _context.Educations.AddAsync(entity);
         }
 
         public void DeleteEducation(Education entity)

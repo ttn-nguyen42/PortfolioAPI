@@ -8,7 +8,7 @@ namespace Portfolio.Repositories
 
         public Task<bool> SaveChangesAsync();
 
-        public void AddQualification(Qualification entity);
+        public Task AddQualification(Qualification entity);
 
         public void DeleteQualification(Qualification entity);
     }
@@ -21,9 +21,9 @@ namespace Portfolio.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void AddQualification(Qualification entity)
+        public async Task AddQualification(Qualification entity)
         {
-            _context.Qualifications.Add(entity);
+            await _context.Qualifications.AddAsync(entity);
         }
 
         public void DeleteQualification(Qualification entity)

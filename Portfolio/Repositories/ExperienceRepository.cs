@@ -8,7 +8,7 @@ namespace Portfolio.Repositories
 
         public Task<bool> SaveChangesAsync();
 
-        public void AddExperience(Experience entity);
+        public Task AddExperience(Experience entity);
 
         public void DeleteExperience(Experience entity);
 
@@ -22,9 +22,9 @@ namespace Portfolio.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void AddExperience(Experience entity)
+        public async Task AddExperience(Experience entity)
         {
-            _context.Experiences.Add(entity);
+            await _context.Experiences.AddAsync(entity);
         }
 
         public void DeleteExperience(Experience entity)

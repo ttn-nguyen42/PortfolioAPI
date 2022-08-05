@@ -6,7 +6,7 @@ namespace Portfolio.Repositories
     {
         public Task<Volunteering?> GetVolunteeringAsync(int id);
 
-        public void AddVolunteering(Volunteering volunteering);
+        public Task AddVolunteering(Volunteering volunteering);
 
         public void DeleteVolunteering(Volunteering volunteering);
 
@@ -22,9 +22,9 @@ namespace Portfolio.Repositories
             _context = context;
         }
 
-        public void AddVolunteering(Volunteering volunteering)
+        public async Task AddVolunteering(Volunteering volunteering)
         {
-            _context.Volunteerings.Add(volunteering);
+            await _context.Volunteerings.AddAsync(volunteering);
         }
 
         public void DeleteVolunteering(Volunteering volunteering)

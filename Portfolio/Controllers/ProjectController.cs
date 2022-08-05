@@ -122,13 +122,11 @@
     public class ProjectTypeController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IResumeRepository _resumeRepository;
         private readonly IMapper _mapper;
 
-        public ProjectTypeController(IProjectRepository projectRepository, IResumeRepository resumeRepository, IMapper mapper)
+        public ProjectTypeController(IProjectRepository projectRepository, IMapper mapper)
         {
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
-            _resumeRepository = resumeRepository ?? throw new ArgumentNullException(nameof(resumeRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -161,7 +159,7 @@
         public async Task<IActionResult> AddType([FromBody] ProjectTypeCreationDto dto)
         {
             ProjectType entity = _mapper.Map<ProjectType>(dto);
-            _projectRepository.AddProjectType(entity);
+            await _projectRepository.AddProjectType(entity);
             if (await _projectRepository.SaveChangesAsync())
             {
                 return Ok(_mapper.Map<ProjectTypeDto>(entity));

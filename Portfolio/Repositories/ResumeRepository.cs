@@ -5,7 +5,7 @@ namespace Portfolio.Repositories
     public interface IResumeRepository
     {
         public Task<Resume?> GetResumeAsync(int id);
-        public void AddResume(Resume payload);
+        public Task AddResume(Resume payload);
 
         public Task<bool> SaveChangesAsync();
     }
@@ -25,9 +25,9 @@ namespace Portfolio.Repositories
                                          .FirstOrDefaultAsync();
         }
 
-        public void AddResume(Resume payload)
+        public async Task AddResume(Resume payload)
         {
-            _context.Resumes.Add(payload);
+            await _context.Resumes.AddAsync(payload);
         }
 
         public async Task<bool> SaveChangesAsync()

@@ -13,6 +13,7 @@ namespace Portfolio.Profiles
             CreateMap<ResumeCreationDto, Resume>();
             CreateMap<ResumeUpdateDto, Resume>();
             CreateMap<Resume, AboutDto>();
+            CreateMap<PersonalLinkCreationDto, PersonalLink>();
         }
     }
 }

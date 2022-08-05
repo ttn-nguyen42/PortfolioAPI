@@ -53,7 +53,7 @@ namespace Portfolio.Controllers
             TechnicalSkill entity = _mapper.Map<TechnicalSkill>(dto);
             entity.Type = type;
             resume.Skills.Add(entity);
-            _skillRepository.AddSkill(entity);
+            await _skillRepository.AddSkill(entity);
             if (await _skillRepository.SaveChangesAsync())
             {
                 return Ok(_mapper.Map<TechnicalSkillWithoutParentDto>(entity));
@@ -163,10 +163,28 @@ namespace Portfolio.Controllers
         public async Task<IActionResult> AddSkillType([FromBody] TechnicalSkillTypeCreationDto dto)
         {
             TechnicalSkillType type = _mapper.Map<TechnicalSkillType>(dto);
-            _repository.AddSkillType(type);
+            await _repository.AddSkillType(type);
             if (await _repository.SaveChangesAsync())
             {
                 return Ok(_mapper.Map<TechnicalSkillTypeDto>(type));
+            }
+            throw new ApiException();
+        }
+
+        [HttpPut("{typeId}")]
+        [ProducesResponseType(200, Type = typeof(TechnicalSkillTypeDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        public async Task<IActionResult> UpdateSkillType([FromRoute] int typeId, [FromBody] TechnicalSkillTypeCreationDto dto)
+        {
+            TechnicalSkillType? entity = await _repository.GetSkillTypeAsync(typeId);
+            if (entity is null)
+            {
+                throw new ApiException(404, "Type not found");
+            }
+            _mapper.Map(dto, entity);
+            if (await _repository.SaveChangesAsync())
+            {
+                return Ok(_mapper.Map<TechnicalSkillTypeDto>(entity));
             }
             throw new ApiException();
         }

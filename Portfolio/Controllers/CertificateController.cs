@@ -126,13 +126,11 @@ namespace Portfolio.Controllers
     public class CertificateTypeController : ControllerBase
     {
         private readonly ICertificateRepository _certificateRepository;
-        private readonly IResumeRepository _resumeRepository;
         private readonly IMapper _mapper;
 
-        public CertificateTypeController(ICertificateRepository certificateRepository, IResumeRepository resumeRepository, IMapper mapper)
+        public CertificateTypeController(ICertificateRepository certificateRepository, IMapper mapper)
         {
             _certificateRepository = certificateRepository ?? throw new ArgumentNullException(nameof(certificateRepository));
-            _resumeRepository = resumeRepository ?? throw new ArgumentNullException(nameof(resumeRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -165,7 +163,7 @@ namespace Portfolio.Controllers
         public async Task<IActionResult> AddType([FromBody] CertificateTypeCreationDto dto)
         {
             CertificateType entity = _mapper.Map<CertificateType>(dto);
-            _certificateRepository.AddCertificateType(entity);
+            await _certificateRepository.AddCertificateType(entity);
             if (await _certificateRepository.SaveChangesAsync())
             {
                 return Ok(_mapper.Map<CertificateTypeDto>(entity));
@@ -177,7 +175,7 @@ namespace Portfolio.Controllers
         [ProducesResponseType(200, Type = typeof(CertificateTypeDto))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> AddType([FromRoute] int typeId, [FromBody] CertificateTypeUpdateDto dto)
+        public async Task<IActionResult> UpdateType([FromRoute] int typeId, [FromBody] CertificateTypeUpdateDto dto)
         {
 
             CertificateType? entity = await _certificateRepository.GetCertificateTypeAsync(typeId);

@@ -42,13 +42,10 @@ namespace Portfolio.Controllers
         public async Task<IActionResult> AddResume([FromBody] ResumeCreationDto dto)
         {
             Resume entity = _mapper.Map<Resume>(dto);
-            _repository.AddResume(entity);
+            await _repository.AddResume(entity);
             if (await _repository.SaveChangesAsync())
             {
-                return CreatedAtRoute("GetResume", new
-                {
-                    Id = entity.Id,
-                }, _mapper.Map<ResumeWithInfoAndAboutDto>(entity));
+                return Ok(_mapper.Map<ResumeWithInfoAndAboutDto>(entity));
             };
             throw new ApiException();
         }

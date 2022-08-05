@@ -10,9 +10,9 @@ namespace Portfolio.Repositories
 
         public Task<Project?> GetProjectAsync(int id);
 
-        public void AddProjectType(ProjectType projectType);
+        public Task AddProjectType(ProjectType projectType);
 
-        public void AddProject(Project project);
+        public Task AddProject(Project project);
 
         public void RemoveProject(Project project);
 
@@ -28,14 +28,14 @@ namespace Portfolio.Repositories
             _context = context;
         }
 
-        public void AddProject(Project project)
+        public async Task AddProject(Project project)
         {
-            _context.Projects.Add(project);
+            await _context.Projects.AddAsync(project);
         }
 
-        public void AddProjectType(ProjectType projectType)
+        public async Task AddProjectType(ProjectType projectType)
         {
-            _context.ProjectTypes.Add(projectType);
+            await _context.ProjectTypes.AddAsync(projectType);
         }
 
         public async Task<Project?> GetProjectAsync(int id)

@@ -7,8 +7,8 @@ namespace Portfolio.Repositories
         public Task<IEnumerable<TechnicalSkillType>> GetSkillTypesAsync();
         public Task<TechnicalSkillType?> GetSkillTypeAsync(int typeId);
         public Task<TechnicalSkill?> GetSkillAsync(int skillId);
-        public void AddSkillType(TechnicalSkillType payload);
-        public void AddSkill(TechnicalSkill payload);
+        public Task AddSkillType(TechnicalSkillType payload);
+        public Task AddSkill(TechnicalSkill payload);
         public void RemoveSkill(TechnicalSkill entity);
         public Task<bool> SaveChangesAsync();
     }
@@ -22,14 +22,14 @@ namespace Portfolio.Repositories
             _context = context;
         }
 
-        public void AddSkill(TechnicalSkill payload)
+        public async Task AddSkill(TechnicalSkill payload)
         {
-            _context.TechnicalSkills.Add(payload);
+            await _context.TechnicalSkills.AddAsync(payload);
         }
 
-        public void AddSkillType(TechnicalSkillType payload)
+        public async Task AddSkillType(TechnicalSkillType payload)
         {
-            _context.TechnicalSkillTypes.Add(payload);
+            await _context.TechnicalSkillTypes.AddAsync(payload);
         }
 
         public async Task<TechnicalSkill?> GetSkillAsync(int skillId)

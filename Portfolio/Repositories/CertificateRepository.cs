@@ -10,9 +10,9 @@ namespace Portfolio.Repositories
 
         public Task<Certificate?> GetCertificateAsync(int id);
 
-        public void AddCertificateType(CertificateType certificateType);
+        public Task AddCertificateType(CertificateType certificateType);
 
-        public void AddCertificate(Certificate certificate);
+        public Task AddCertificate(Certificate certificate);
 
         public void RemoveCertificate(Certificate certificate);
 
@@ -29,14 +29,14 @@ namespace Portfolio.Repositories
             _context = context;
         }
 
-        public void AddCertificate(Certificate certificate)
+        public async Task AddCertificate(Certificate certificate)
         {
-            _context.Certificates.Add(certificate);
+            await _context.Certificates.AddAsync(certificate);
         }
 
-        public void AddCertificateType(CertificateType certificateType)
+        public async Task AddCertificateType(CertificateType certificateType)
         {
-            _context.CertificateTypes.Add(certificateType);
+            await _context.CertificateTypes.AddAsync(certificateType);
         }
 
         public async Task<Certificate?> GetCertificateAsync(int id)

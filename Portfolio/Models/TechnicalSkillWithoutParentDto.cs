@@ -59,6 +59,18 @@ namespace Portfolio.Models
         }
     }
 
+    public class TechnicalSkillTypeUpdateDto
+    {
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        public TechnicalSkillTypeUpdateDto(string name)
+        {
+            Name = name;
+        }
+    }
+
     public class TechnicalSkillDescriptionCreationDto
     {
         [Required]

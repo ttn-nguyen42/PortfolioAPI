@@ -44,7 +44,7 @@ namespace Portfolio.Entities
 
         public virtual ICollection<Qualification> Qualification { get; set; } = new List<Qualification>();
 
-        public virtual ICollection<PersonalLink> PersonalLink { get; set; } = new List<PersonalLink>();
+        public virtual ICollection<PersonalLink> Links { get; set; } = new List<PersonalLink>();
 
         public virtual ICollection<Activity> Activities { get; set; } = new List<Activity>();
 
