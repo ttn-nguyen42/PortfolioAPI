@@ -8,6 +8,9 @@ namespace Portfolio.Profiles
         {
             CreateMap<Experience, ExperienceWithoutParentDto>();
             CreateMap<ExperienceDescription, ExperienceDescriptionWithoutParentDto>();
+            CreateMap<ExperienceCreationDto, Experience>();
+            CreateMap<ExperienceDescriptionCreationDto, Experience>();
+            CreateMap<ExperienceUpdateDto, Experience>();
         }
     }
 }

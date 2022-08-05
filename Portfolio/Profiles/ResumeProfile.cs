@@ -8,10 +8,12 @@ namespace Portfolio.Profiles
         {
             CreateMap<Resume, ResumeDto>();
             CreateMap<Resume, InfoDto>();
-            CreateMap<Resume, AboutDto>();
             CreateMap<PersonalLink, PersonalLinkWithoutParentDto>();
             CreateMap<Resume, ResumeWithInfoAndAboutDto>();
             CreateMap<ResumeCreationDto, Resume>();
+            CreateMap<ResumeUpdateDto, Resume>();
+            CreateMap<Resume, AboutDto>();
+            CreateMap<PersonalLinkCreationDto, PersonalLink>();
         }
     }
 }

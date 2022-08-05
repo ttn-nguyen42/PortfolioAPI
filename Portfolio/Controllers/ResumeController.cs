@@ -20,37 +20,55 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet("{id}", Name = "GetResume")]
+        [ProducesResponseType(200, Type = typeof(ResumeDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetResume([FromRoute] int id)
         {
             Resume? entity = await _repository.GetResumeAsync(id);
             if (entity is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             return Ok(_mapper.Map<ResumeDto>(entity));
         }
 
         [HttpPost]
+        [ProducesResponseType(200, Type = typeof(ResumeWithInfoAndAboutDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> AddResume([FromBody] ResumeCreationDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                IEnumerable<string> errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                throw new HttpResponseException(400, "Bad request")
-                {
-                    Errors = errors.ToList(),
-                };
-            }
             Resume entity = _mapper.Map<Resume>(dto);
-            _repository.AddResume(entity);
+            await _repository.AddResume(entity);
             if (await _repository.SaveChangesAsync())
             {
-                return CreatedAtRoute("GetResume", new
-                {
-                    Id = entity.Id,
-                }, _mapper.Map<ResumeWithInfoAndAboutDto>(entity));
+                return Ok(_mapper.Map<ResumeWithInfoAndAboutDto>(entity));
             };
-            throw new HttpResponseException(500, "Changes not saved");
+            throw new ApiException();
+        }
+
+        [HttpPut("{resumeId}")]
+        [ProducesResponseType(200, Type = typeof(ResumeWithInfoAndAboutDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateResume([FromRoute] int resumeId, [FromBody] ResumeUpdateDto dto)
+        {
+            Resume? resume = await _repository.GetResumeAsync(resumeId);
+            if (resume is null)
+            {
+                throw new ApiException(404, "Resume not found");
+            }
+            _mapper.Map(dto, resume);
+            if (await _repository.SaveChangesAsync())
+            {
+                // Can return NoContent but will takes one more request if a read is needed afterward
+                return Ok(_mapper.Map<ResumeWithInfoAndAboutDto>(resume));
+            }
+            throw new ApiException();
         }
     }
 

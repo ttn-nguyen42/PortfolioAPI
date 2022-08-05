@@ -186,11 +186,11 @@ namespace Portfolio.Contexts
                    .HasForeignKey(v => v.ResumeId);
 
             builder.Entity<Resume>()
-                   .HasMany(r => r.PersonalLink)
+                   .HasMany(r => r.Links)
                    .WithOne(l => l.Resume);
             builder.Entity<PersonalLink>()
                    .HasOne(l => l.Resume)
-                   .WithMany(r => r.PersonalLink)
+                   .WithMany(r => r.Links)
                    .HasForeignKey(l => l.ResumeId);
         }
     }

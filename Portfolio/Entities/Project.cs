@@ -22,7 +22,7 @@ namespace Portfolio.Entities
         public string Team { get; set; }
 
         [Required]
-        [MaxLength(200)]
+        [MaxLength(300)]
         public string Overview { get; set; }
 
         public virtual ICollection<ProjectDescription> Descriptions { get; set; } = new List<ProjectDescription>();

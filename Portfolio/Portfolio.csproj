@@ -42,7 +42,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="Portfolio.IntegrationTests"/>
+		<InternalsVisibleTo Include="Portfolio.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Logs\" />
 	</ItemGroup>
 
 </Project>

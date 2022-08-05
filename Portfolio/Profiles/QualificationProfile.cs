@@ -8,6 +8,9 @@ namespace Portfolio.Profiles
         {
             CreateMap<Qualification, QualificationWithoutParentDto>();
             CreateMap<QualificationDescription, QualificationDescriptionWithoutParentDto>();
+            CreateMap<QualificationCreationDto, Qualification>();
+            CreateMap<QualificationDescriptionCreationDto, Qualification>();
+            CreateMap<QualificationUpdateDto, Qualification>();
         }
     }
 }

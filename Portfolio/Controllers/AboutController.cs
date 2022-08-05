@@ -18,12 +18,15 @@ namespace Portfolio.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(AboutDto))]
+        [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
+        [Produces("application/json")]
         public async Task<IActionResult> GetAbout([FromRoute] int id)
         {
             Resume? entity = await _repository.GetResumeAsync(id);
             if (entity is null)
             {
-                throw new HttpResponseException(404, "Resume not found");
+                throw new ApiException(404, "Resume not found");
             }
             return Ok(_mapper.Map<AboutDto>(entity));
         }

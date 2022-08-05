@@ -15,17 +15,17 @@ namespace Portfolio.Entities
 
         [Required]
         [MaxLength(100)]
-        public string IssuerId { get; set; }
+        public string Issuer { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string Instructor { get; set; }
 
         public DateTime Time { get; set; }
 
         public virtual ICollection<CertificateDescription> Descriptions { get; set; } = new List<CertificateDescription>();
 
-        public int TypeId;
+        public int? TypeId;
 
         // Should not delete this entity when its type is deleted
         [ForeignKey("TypeId")]
@@ -38,10 +38,10 @@ namespace Portfolio.Entities
 
         public int ResumeId { get; set; }
 
-        public Certificate(string name, string issuerId, string instructor, DateTime time)
+        public Certificate(string name, string issuer, string instructor, DateTime time)
         {
             Name = name;
-            IssuerId = issuerId;
+            Issuer = issuer;
             Instructor = instructor;
             Time = time;
         }
@@ -104,11 +104,6 @@ namespace Portfolio.Entities
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-
-        public int CertificateId { get; set; }
-
-        [ForeignKey("CertificateId")]
-        public virtual Certificate? Certificate { get; set; }
 
         public CertificateType(string name)
         {

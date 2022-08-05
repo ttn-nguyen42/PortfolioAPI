@@ -7,12 +7,20 @@ namespace Portfolio.Extensions.Behaviors
     {
         public static void ConfigureValidationFailureOptions(ApiBehaviorOptions options)
         {
-            options.InvalidModelStateResponseFactory = context => new ObjectResult(context.ModelState)
+            options.InvalidModelStateResponseFactory = context =>
             {
-                ContentTypes = {
+                IEnumerable<string> errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                ExceptionMessage result = new ExceptionMessage("Bad request", 400)
+                {
+                    Errors = errors,
+                };
+                return new ObjectResult(result)
+                {
+                    ContentTypes = {
                     Application.Json,
                 },
-                StatusCode = 400,
+                    StatusCode = 400,
+                };
             };
         }
     }

@@ -13,7 +13,7 @@
 
         public string Email { get; set; }
 
-        public ICollection<PersonalLinkWithoutParentDto> links = new List<PersonalLinkWithoutParentDto>();
+        public ICollection<PersonalLinkWithoutParentDto> Links { get; set; } = new List<PersonalLinkWithoutParentDto>();
 
         public InfoDto(string name, string shortBiography, string location, string email)
         {
@@ -34,6 +34,25 @@
 
         public PersonalLinkWithoutParentDto(string name, string link)
         {
+            Name = name;
+            Link = link;
+        }
+    }
+
+    public class PersonalLinkCreationDto
+    {
+
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string Link { get; set; }
+
+        public PersonalLinkCreationDto(string name, string link)
+        {
+
             Name = name;
             Link = link;
         }

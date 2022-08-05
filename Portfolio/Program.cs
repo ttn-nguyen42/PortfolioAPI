@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Portfolio.Extensions.Behaviors;
 using Portfolio.Extensions.Filters;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace Portfolio
@@ -23,15 +24,34 @@ namespace Portfolio
                 options.ReturnHttpNotAcceptable = true;
             });
 
-            builder.Services.AddControllers().AddNewtonsoftJson();
-            builder.Services.AddControllers(options => { options.Filters.Add<HttpResponseExceptionFilter>(); });
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                /*
+                 * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
+                 */
+                options.SerializerSettings.DateFormatString = "MM/yyyy";
+            });
+            builder.Services.AddControllers(options => { options.Filters.Add<ApiExceptionFilter>(); });
             builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
                 ValidationFailureConfigurer.ConfigureValidationFailureOptions(options);
             });
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Version = "v1",
+                    Title = "Portfolio API",
+                    Description = "ASP.NET Core Web API application for personal portfolio",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "GitHub",
+                        Url = new Uri("https://github.com/ttn-nguyen42/PortfolioAPI")
+                    },
+                });
+            });
 
             /* 
              * User requested services are registered here

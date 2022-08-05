@@ -4,7 +4,7 @@ using Portfolio.Extensions.Exceptions;
 
 namespace Portfolio.Extensions.Filters
 {
-    public class HttpResponseExceptionFilter : IActionFilter, IOrderedFilter
+    public class ApiExceptionFilter : IActionFilter, IOrderedFilter
     {
         public int Order => int.MaxValue - 10;
 
@@ -12,9 +12,12 @@ namespace Portfolio.Extensions.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            if (context.Exception is HttpResponseException exception)
+            if (context.Exception is ApiException exception)
             {
-                ExceptionMessage message = new(exception.Message, exception.StatusCode);
+                ExceptionMessage message = new ExceptionMessage(exception.Message, exception.StatusCode)
+                {
+                    Errors = exception.Errors,
+                };
                 context.Result = new ObjectResult(message)
                 {
                     StatusCode = message.StatusCode,
