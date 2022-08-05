@@ -3,6 +3,8 @@ using Portfolio.Extensions.Behaviors;
 using Portfolio.Extensions.Filters;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Portfolio.Extensions.Middlewares;
+using Newtonsoft.Json.Converters;
 
 namespace Portfolio
 {
@@ -30,6 +32,11 @@ namespace Portfolio
                  * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
                  */
                 options.SerializerSettings.DateFormatString = "MM/yyyy";
+
+                /*
+                 * @note: Enum converter
+                 */
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
             builder.Services.AddControllers(options => { options.Filters.Add<ApiExceptionFilter>(); });
             builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
@@ -67,13 +74,17 @@ namespace Portfolio
                 setup.ReportApiVersions = true;
             });
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            MiddlewareSetup setup = new MiddlewareSetup(app);
+
+            setup.RegisterMiddleware();
 
             app.UseRouting();
 

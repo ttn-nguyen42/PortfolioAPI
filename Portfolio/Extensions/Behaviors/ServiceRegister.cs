@@ -37,6 +37,8 @@ namespace Portfolio.Extensions.Behaviors
                 options.UseLazyLoadingProxies().UseMySql(settings, ServerVersion.AutoDetect(settings));
             });
 
+            builder.Services.AddDbContext<KeyContext>();
+
             /*
              * Repositories
              */
@@ -49,6 +51,8 @@ namespace Portfolio.Extensions.Behaviors
             builder.Services.AddScoped<ICertificateRepository, CertificateRepository>();
             builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
             builder.Services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
+            builder.Services.AddScoped<IKeyRepository, KeyRepository>();
+
         }
     }
 }
