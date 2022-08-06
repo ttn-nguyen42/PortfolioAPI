@@ -53,6 +53,11 @@ namespace Portfolio.Extensions.Behaviors
             builder.Services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
             builder.Services.AddScoped<IKeyRepository, KeyRepository>();
 
+            /*
+             * Add browser directory
+             */
+            builder.Services.AddDirectoryBrowser();
+
         }
     }
 }

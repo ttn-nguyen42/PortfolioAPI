@@ -56,19 +56,19 @@
             throw new ApiException();
         }
 
-        [HttpPut("{ActivityId}")]
+        [HttpPut("{activityId}")]
         [ProducesResponseType(200, Type = typeof(ActivityWithoutParentDto))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> UpdateOne([FromRoute] int resumeId, [FromRoute] int ActivityId, [FromBody] ActivityUpdateDto dto)
+        public async Task<IActionResult> UpdateOne([FromRoute] int resumeId, [FromRoute] int activityId, [FromBody] ActivityUpdateDto dto)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            Activity? entity = await _activitiesRepository.GetActivityAsync(ActivityId);
+            Activity? entity = await _activitiesRepository.GetActivityAsync(activityId);
             if (entity is null)
             {
                 throw new ApiException(404, "Activity not found");
@@ -85,19 +85,19 @@
             throw new ApiException();
         }
 
-        [HttpDelete("{ActivityId}")]
+        [HttpDelete("{activityId}")]
         [ProducesResponseType(202)]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [ProducesResponseType(406, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
-        public async Task<IActionResult> DeleteOne([FromRoute] int resumeId, [FromRoute] int ActivityId)
+        public async Task<IActionResult> DeleteOne([FromRoute] int resumeId, [FromRoute] int activityId)
         {
             Resume? resume = await _resumeRepository.GetResumeAsync(resumeId);
             if (resume is null)
             {
                 throw new ApiException(404, "Resume not found");
             }
-            Activity? entity = await _activitiesRepository.GetActivityAsync(ActivityId);
+            Activity? entity = await _activitiesRepository.GetActivityAsync(activityId);
             if (entity is null)
             {
                 throw new ApiException(404, "Activity not found");
