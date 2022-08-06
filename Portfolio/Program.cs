@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Portfolio.Extensions.Middlewares;
 using Newtonsoft.Json.Converters;
+using Microsoft.Extensions.FileProviders;
 
 namespace Portfolio
 {
@@ -20,6 +21,10 @@ namespace Portfolio
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Host.UseSerilog();
+
+            /*
+             * Add directory browsing
+             */
 
             builder.Services.AddControllers(options =>
             {
@@ -58,6 +63,27 @@ namespace Portfolio
                         Url = new Uri("https://github.com/ttn-nguyen42/PortfolioAPI")
                     },
                 });
+
+                var apiKeySecurityScheme = new OpenApiSecurityScheme()
+                {
+                    Description = "API key for accessing POST, PUT, DELETE endpoints",
+                    Name = "XApiKey",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                };
+
+                options.AddSecurityDefinition("XApiKey", apiKeySecurityScheme);
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "XApiKey"
+                        }
+                    }, Array.Empty<string>()}
+                });
+
             });
 
             /* 
@@ -76,6 +102,25 @@ namespace Portfolio
 
             WebApplication app = builder.Build();
 
+            /*
+             * For files
+             */
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                            Path.Combine(builder.Environment.WebRootPath)),
+                RequestPath = "/files"
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.WebRootPath)),
+                RequestPath = "/files"
+            });
+
+            app.UseDirectoryBrowser();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -83,7 +128,6 @@ namespace Portfolio
             }
 
             MiddlewareSetup setup = new MiddlewareSetup(app);
-
             setup.RegisterMiddleware();
 
             app.UseRouting();
