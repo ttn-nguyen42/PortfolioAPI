@@ -6,8 +6,8 @@ namespace Portfolio.Extensions.Behaviors
 {
     public class ServiceRegister
     {
-        private readonly IConfiguration _configuration;
-        public ServiceRegister(IConfiguration configuration)
+        private readonly Config _configuration;
+        public ServiceRegister(Config configuration)
         {
             _configuration = configuration;
         }
@@ -19,6 +19,15 @@ namespace Portfolio.Extensions.Behaviors
 
             /*
              * Database contexts
+             */
+
+            /*
+             * Docker ENV for "Portfolio" database
+             * ConnectionSettings__Portfolio__ServerUrl
+             * ConnectionSettings__Portfolio__ServerPort
+             * ConnectionSettings__Portfolio__DatabaseName
+             * ConnectionSettings__Portfolio__DatabaseUser
+             * ConnectionSettings__Portfolio__DatabasePassword
              */
             string _serverUrl = _configuration["ConnectionSettings:Portfolio:ServerUrl"];
             string _serverPort = _configuration["ConnectionSettings:Portfolio:ServerPort"];
@@ -37,6 +46,18 @@ namespace Portfolio.Extensions.Behaviors
                 options.UseLazyLoadingProxies().UseMySql(settings, ServerVersion.AutoDetect(settings));
             });
 
+            /*
+             * Docker ENV for "ApiKey" database
+             * ConnectionSettings__ApiKey__ServerUrl
+             * ConnectionSettings__ApiKey__ServerPort
+             * ConnectionSettings__ApiKey__DatabaseName
+             * ConnectionSettings__ApiKey__DatabaseUser
+             * ConnectionSettings__ApiKey__DatabasePassword
+             */
+
+            /*
+             * AdminKey
+             */
             builder.Services.AddDbContext<KeyContext>();
 
             /*

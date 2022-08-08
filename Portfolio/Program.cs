@@ -20,6 +20,13 @@ namespace Portfolio
 
             var builder = WebApplication.CreateBuilder(args);
 
+            /*
+             * Service for environment variable retrival
+             */
+            Config configurator = new Config(builder.Configuration);
+
+            builder.Services.AddSingleton(configurator);
+
             builder.Host.UseSerilog();
 
             /*
@@ -90,7 +97,7 @@ namespace Portfolio
              * User requested services are registered here
              * Database contexts, repositories,...
              */
-            ServiceRegister serviceRegister = new ServiceRegister(builder.Configuration);
+            ServiceRegister serviceRegister = new ServiceRegister(configurator);
             serviceRegister.Register(builder);
 
             builder.Services.AddApiVersioning(setup =>
@@ -121,11 +128,8 @@ namespace Portfolio
 
             app.UseDirectoryBrowser();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             MiddlewareSetup setup = new MiddlewareSetup(app);
             setup.RegisterMiddleware();
