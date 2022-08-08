@@ -12,9 +12,9 @@ namespace Portfolio.Contexts
         /*
          * Server configurations
          */
-        private readonly IConfiguration _configuration;
+        private readonly Config _configuration;
 
-        public KeyContext(IConfiguration configuration)
+        public KeyContext(Config configuration)
         {
             _configuration = configuration;
         }
