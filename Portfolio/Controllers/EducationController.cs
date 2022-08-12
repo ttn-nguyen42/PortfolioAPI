@@ -4,7 +4,7 @@ namespace Portfolio.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/resume/{resumeId}/educations")]
+    [Route("api/v{version:apiVersion}/resumes/{resumeId}/educations")]
     public class EducationController : ControllerBase
     {
         private readonly IEducationRepository _educationRepository;
