@@ -31,12 +31,12 @@ services:
       - ConnectionSettings__Portfolio__ServerUrl=mysql
       - ConnectionSettings__Portfolio__ServerPort=${DATABASE_DOCKER_PORT}
       - ConnectionSettings__Portfolio__DatabaseName=${DATABASE_NAME}
-      - ConnectionSettings__Portfolio__DatabaseUser=${DATABASE_USERNAME}
+      - ConnectionSettings__Portfolio__DatabaseUser=root
       - ConnectionSettings__Portfolio__DatabasePassword=${DATABASE_PASSWORD}
       - ConnectionSettings__ApiKey__ServerUrl=mysql
       - ConnectionSettings__ApiKey__ServerPort=${DATABASE_DOCKER_PORT}
       - ConnectionSettings__ApiKey__DatabaseName=${DATABASE_NAME}
-      - ConnectionSettings__ApiKey__DatabaseUser=${DATABASE_USERNAME}
+      - ConnectionSettings__ApiKey__DatabaseUser=root
       - ConnectionSettings__ApiKey__DatabasePassword=${DATABASE_PASSWORD}
       - AdminKey=$API_ADMIN_KEY
     volumes:

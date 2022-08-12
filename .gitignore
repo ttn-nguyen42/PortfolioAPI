@@ -364,3 +364,4 @@ FodyWeavers.xsd
 # Docker
 mysql-data/
 static-files/
+.env
