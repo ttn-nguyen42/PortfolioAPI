@@ -20,6 +20,12 @@ namespace Portfolio
 
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options => options.AddPolicy(
+                "AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                }));
+
             /*
              * Service for environment variable retrival
              */
@@ -40,14 +46,14 @@ namespace Portfolio
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
-          /*
-           * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
-           */
+                /*
+                 * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
+                 */
                 options.SerializerSettings.DateFormatString = "MM/yyyy";
 
-          /*
-           * @note: Enum converter
-           */
+                /*
+                 * @note: Enum converter
+                 */
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
             builder.Services.AddControllers(options => { options.Filters.Add<ApiExceptionFilter>(); });
@@ -110,6 +116,11 @@ namespace Portfolio
             WebApplication app = builder.Build();
 
             /*
+             * CORS settings
+             */
+            app.UseCors("AllowAll");
+
+            /*
              * For files
              */
             app.UseStaticFiles(new StaticFileOptions
@@ -140,9 +151,8 @@ namespace Portfolio
 
             app.UseAuthorization();
 
-            app.MapControllers();
-
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+
 
             /*
              * Database migration

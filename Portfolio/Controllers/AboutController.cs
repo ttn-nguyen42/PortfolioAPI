@@ -5,7 +5,7 @@ namespace Portfolio.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/resume/{id}/about")]
+    [Route("api/v{version:apiVersion}/resumes/{id}/about")]
     public class AboutController: ControllerBase
     {
         private readonly IResumeRepository _repository;
