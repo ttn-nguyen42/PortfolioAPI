@@ -10,8 +10,8 @@ using Portfolio.Contexts;
 namespace Portfolio.Migrations.Key
 {
     [DbContext(typeof(KeyContext))]
-    [Migration("20220805165811_seed-admin-apikey")]
-    partial class seedadminapikey
+    [Migration("20220812025323_unified-database")]
+    partial class unifieddatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace Portfolio.Migrations.Key
                         {
                             Id = 1,
                             Authorization = 0,
-                            Value = "abc"
+                            Value = "iD2e/0oQtUFkAz4omzjZ8g=="
                         });
                 });
 #pragma warning restore 612, 618

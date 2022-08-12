@@ -144,6 +144,25 @@ namespace Portfolio
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
+            /*
+             * Database migration
+             * Only apply this migration method in monolithic & single-instance apps
+             */
+            using (var scope = app.Services.CreateScope())
+            {
+                IServiceProvider services = scope.ServiceProvider;
+                PortfolioContext portfolioContext = services.GetRequiredService<PortfolioContext>();
+                KeyContext keyContext = services.GetRequiredService<KeyContext>();
+                if (portfolioContext.Database.GetPendingMigrations().Any())
+                {
+                    portfolioContext.Database.Migrate();
+                }
+                if (keyContext.Database.GetPendingMigrations().Any())
+                {
+                    keyContext.Database.Migrate();
+                }
+            }
+
             app.Run();
         }
     }
