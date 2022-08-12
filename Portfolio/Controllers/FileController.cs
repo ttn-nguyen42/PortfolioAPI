@@ -16,7 +16,7 @@
                 Directory.CreateDirectory(path);
             }
             FileInfo info = new FileInfo(form.FileName);
-            string fileName = FileNameGenerator.RandomName() + info.Extension;
+            string fileName = form.FileName + info.Extension;
             string fileNameOnDirectory = Path.Combine(path, fileName);
             FileStream stream = new FileStream(fileNameOnDirectory, FileMode.Create);
             await form.CopyToAsync(stream);
