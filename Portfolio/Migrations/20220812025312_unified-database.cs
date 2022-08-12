@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Portfolio.Migrations
 {
-    public partial class initial : Migration
+    public partial class unifieddatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace Portfolio.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProjectType",
+                name: "CertificateTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -39,7 +39,22 @@ namespace Portfolio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectType", x => x.Id);
+                    table.PrimaryKey("PK_CertificateTypes", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ProjectTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectTypes", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -122,16 +137,22 @@ namespace Portfolio.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IssuerId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Issuer = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Instructor = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                    Instructor = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Time = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TypeId = table.Column<int>(type: "int", nullable: true),
                     ResumeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Certificates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Certificates_CertificateTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "CertificateTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Certificates_Resumes_ResumeId",
                         column: x => x.ResumeId,
@@ -219,7 +240,7 @@ namespace Portfolio.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Project",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -230,22 +251,22 @@ namespace Portfolio.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Team = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Overview = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    Overview = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     ResumeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Project", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_ProjectType_TypeId",
+                        name: "FK_Projects_ProjectTypes_TypeId",
                         column: x => x.TypeId,
-                        principalTable: "ProjectType",
+                        principalTable: "ProjectTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Project_Resumes_ResumeId",
+                        name: "FK_Projects_Resumes_ResumeId",
                         column: x => x.ResumeId,
                         principalTable: "Resumes",
                         principalColumn: "Id",
@@ -254,7 +275,7 @@ namespace Portfolio.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Qualification",
+                name: "Qualifications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -268,9 +289,9 @@ namespace Portfolio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Qualification", x => x.Id);
+                    table.PrimaryKey("PK_Qualifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Qualification_Resumes_ResumeId",
+                        name: "FK_Qualifications_Resumes_ResumeId",
                         column: x => x.ResumeId,
                         principalTable: "Resumes",
                         principalColumn: "Id",
@@ -429,28 +450,6 @@ namespace Portfolio.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "CertificateTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CertificateId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CertificateTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CertificateTypes_Certificates_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "EducationDescription",
                 columns: table => new
                 {
@@ -495,7 +494,7 @@ namespace Portfolio.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProjectDescription",
+                name: "ProjectDescriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -506,18 +505,18 @@ namespace Portfolio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectDescription", x => x.Id);
+                    table.PrimaryKey("PK_ProjectDescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectDescription_Project_ProjectId",
+                        name: "FK_ProjectDescriptions_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ProjectLink",
+                name: "ProjectLinks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -530,18 +529,18 @@ namespace Portfolio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectLink", x => x.Id);
+                    table.PrimaryKey("PK_ProjectLinks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectLink_Project_ProjectId",
+                        name: "FK_ProjectLinks_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Project",
+                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "QualificationDescription",
+                name: "QualificationsDescriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -552,11 +551,11 @@ namespace Portfolio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QualificationDescription", x => x.Id);
+                    table.PrimaryKey("PK_QualificationsDescriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QualificationDescription_Qualification_QualificationId",
+                        name: "FK_QualificationsDescriptions_Qualifications_QualificationId",
                         column: x => x.QualificationId,
-                        principalTable: "Qualification",
+                        principalTable: "Qualifications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -642,9 +641,9 @@ namespace Portfolio.Migrations
                 column: "ResumeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CertificateTypes_CertificateId",
-                table: "CertificateTypes",
-                column: "CertificateId");
+                name: "IX_Certificates_TypeId",
+                table: "Certificates",
+                column: "TypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EducationDescription_EducationId",
@@ -672,33 +671,33 @@ namespace Portfolio.Migrations
                 column: "ResumeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_ResumeId",
-                table: "Project",
+                name: "IX_ProjectDescriptions_ProjectId",
+                table: "ProjectDescriptions",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectLinks_ProjectId",
+                table: "ProjectLinks",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_ResumeId",
+                table: "Projects",
                 column: "ResumeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_TypeId",
-                table: "Project",
+                name: "IX_Projects_TypeId",
+                table: "Projects",
                 column: "TypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectDescription_ProjectId",
-                table: "ProjectDescription",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectLink_ProjectId",
-                table: "ProjectLink",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Qualification_ResumeId",
-                table: "Qualification",
+                name: "IX_Qualifications_ResumeId",
+                table: "Qualifications",
                 column: "ResumeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QualificationDescription_QualificationId",
-                table: "QualificationDescription",
+                name: "IX_QualificationsDescriptions_QualificationId",
+                table: "QualificationsDescriptions",
                 column: "QualificationId");
 
             migrationBuilder.CreateIndex(
@@ -742,9 +741,6 @@ namespace Portfolio.Migrations
                 name: "CertificateLinks");
 
             migrationBuilder.DropTable(
-                name: "CertificateTypes");
-
-            migrationBuilder.DropTable(
                 name: "EducationDescription");
 
             migrationBuilder.DropTable(
@@ -754,13 +750,13 @@ namespace Portfolio.Migrations
                 name: "PersonalLinks");
 
             migrationBuilder.DropTable(
-                name: "ProjectDescription");
+                name: "ProjectDescriptions");
 
             migrationBuilder.DropTable(
-                name: "ProjectLink");
+                name: "ProjectLinks");
 
             migrationBuilder.DropTable(
-                name: "QualificationDescription");
+                name: "QualificationsDescriptions");
 
             migrationBuilder.DropTable(
                 name: "TechnicalSkillDescriptions");
@@ -781,10 +777,10 @@ namespace Portfolio.Migrations
                 name: "Experiences");
 
             migrationBuilder.DropTable(
-                name: "Project");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Qualification");
+                name: "Qualifications");
 
             migrationBuilder.DropTable(
                 name: "TechnicalSkills");
@@ -796,7 +792,10 @@ namespace Portfolio.Migrations
                 name: "ActivityTypes");
 
             migrationBuilder.DropTable(
-                name: "ProjectType");
+                name: "CertificateTypes");
+
+            migrationBuilder.DropTable(
+                name: "ProjectTypes");
 
             migrationBuilder.DropTable(
                 name: "TechnicalSkillTypes");

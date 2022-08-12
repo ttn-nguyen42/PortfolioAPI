@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Portfolio.Migrations.Key
 {
-    public partial class addapikeydatabase : Migration
+    public partial class unifieddatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,6 +27,11 @@ namespace Portfolio.Migrations.Key
                     table.PrimaryKey("PK_Keys", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Keys",
+                columns: new[] { "Id", "Authorization", "Value" },
+                values: new object[] { 1, 0, "iD2e/0oQtUFkAz4omzjZ8g==" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

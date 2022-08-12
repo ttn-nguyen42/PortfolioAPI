@@ -11,8 +11,8 @@ using Portfolio.Contexts;
 namespace Portfolio.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    [Migration("20220804145509_fix-certificate")]
-    partial class fixcertificate
+    [Migration("20220812025312_unified-database")]
+    partial class unifieddatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace Portfolio.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -370,8 +370,8 @@ namespace Portfolio.Migrations
 
                     b.Property<string>("Overview")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<int>("ResumeId")
                         .HasColumnType("int");
@@ -395,7 +395,7 @@ namespace Portfolio.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.ProjectDescription", b =>
@@ -416,7 +416,7 @@ namespace Portfolio.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectDescription");
+                    b.ToTable("ProjectDescriptions");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.ProjectLink", b =>
@@ -442,7 +442,7 @@ namespace Portfolio.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectLink");
+                    b.ToTable("ProjectLinks");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.ProjectType", b =>
@@ -458,7 +458,7 @@ namespace Portfolio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectType");
+                    b.ToTable("ProjectTypes");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.Qualification", b =>
@@ -722,9 +722,7 @@ namespace Portfolio.Migrations
 
                     b.HasOne("Portfolio.Entities.CertificateType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TypeId");
 
                     b.Navigation("Resume");
 
@@ -800,7 +798,7 @@ namespace Portfolio.Migrations
             modelBuilder.Entity("Portfolio.Entities.PersonalLink", b =>
                 {
                     b.HasOne("Portfolio.Entities.Resume", "Resume")
-                        .WithMany("PersonalLink")
+                        .WithMany("Links")
                         .HasForeignKey("ResumeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -969,7 +967,7 @@ namespace Portfolio.Migrations
 
                     b.Navigation("Experience");
 
-                    b.Navigation("PersonalLink");
+                    b.Navigation("Links");
 
                     b.Navigation("Projects");
 
