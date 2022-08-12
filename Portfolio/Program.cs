@@ -40,14 +40,14 @@ namespace Portfolio
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
-                /*
-                 * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
-                 */
+          /*
+           * @note: All incommings or outgoings DateTime formats to "MM/yyyy" (i.e 08/2022)
+           */
                 options.SerializerSettings.DateFormatString = "MM/yyyy";
 
-                /*
-                 * @note: Enum converter
-                 */
+          /*
+           * @note: Enum converter
+           */
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
             builder.Services.AddControllers(options => { options.Filters.Add<ApiExceptionFilter>(); });
