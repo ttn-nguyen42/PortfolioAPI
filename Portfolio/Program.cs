@@ -126,14 +126,14 @@ namespace Portfolio
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                            Path.Combine(builder.Environment.WebRootPath)),
+                            Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
                 RequestPath = "/files"
             });
 
             app.UseDirectoryBrowser(new DirectoryBrowserOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(builder.Environment.WebRootPath)),
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
                 RequestPath = "/files"
             });
 
