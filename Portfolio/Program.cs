@@ -167,6 +167,10 @@ namespace Portfolio
                 {
                     portfolioContext.Database.Migrate();
                 }
+                if (keyContext.Database.GetPendingMigrations().Any())
+                {
+                    keyContext.Database.Migrate();
+                }
                 Config config = services.GetRequiredService<Config>();
                 string? rawKey = config.GetConfig("AdminKey");
                 if (rawKey is not null)
