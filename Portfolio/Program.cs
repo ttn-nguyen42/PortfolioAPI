@@ -167,9 +167,33 @@ namespace Portfolio
                 {
                     portfolioContext.Database.Migrate();
                 }
-                if (keyContext.Database.GetPendingMigrations().Any())
+                Config config = services.GetRequiredService<Config>();
+                string? rawKey = config.GetConfig("AdminKey");
+                if (rawKey is not null)
                 {
-                    keyContext.Database.Migrate();
+                    Console.WriteLine("AdminKey found");
+                    string encodedKey = KeyHasher.Hash(rawKey);
+                    Key? key = keyContext.Keys.FirstOrDefault(key => key.Value == encodedKey);
+                    if (key is not null)
+                    {
+                        Console.WriteLine("Found AdminKey in database");
+                        if (key.Authorization.Equals(KeyAuthorization.READONLY))
+                        {
+                            key.Authorization = KeyAuthorization.ADMIN;
+                            keyContext.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("New AdminKey found");
+                        Console.WriteLine("Clear old AdminKey");
+                        keyContext.Keys.RemoveRange(keyContext.Keys);
+                        keyContext.SaveChanges();
+                        Key newKey = new Key(encodedKey, KeyAuthorization.ADMIN);
+                        keyContext.Keys.Add(newKey);
+                        keyContext.SaveChanges();
+                        Console.WriteLine("Added new AdminKey");
+                    }
                 }
             }
 

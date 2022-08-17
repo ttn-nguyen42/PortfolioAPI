@@ -20,6 +20,12 @@ namespace Portfolio.Entities
             Value = value;
             Authorization = authorization;
         }
+
+        public Key(string value, KeyAuthorization authorization)
+        {
+            Value = value;
+            Authorization = authorization;
+        }
     }
 
     public enum KeyAuthorization
