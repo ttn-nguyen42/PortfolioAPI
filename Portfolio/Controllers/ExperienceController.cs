@@ -4,7 +4,7 @@ namespace Portfolio.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/resumes/{id}/experiences")]
+    [Route("api/v{version:apiVersion}/resumes/{resumeId}/experiences")]
     public class ExperienceController : ControllerBase
     {
         private readonly IExperienceRepository _experienceRepository;
@@ -33,7 +33,7 @@ namespace Portfolio.Controllers
             return Ok(_mapper.Map<ICollection<ExperienceWithoutParentDto>>(resume.Experience));
         }
 
-        [HttpPost("{experienceId}")]
+        [HttpPost]
         [ProducesResponseType(200, Type = typeof(ExperienceWithoutParentDto))]
         [ProducesResponseType(404, Type = typeof(ExceptionMessage))]
         [Produces("application/json")]
