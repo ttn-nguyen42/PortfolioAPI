@@ -19,6 +19,8 @@ services:
       context: .
       dockerfile: ./Portfolio/Dockerfile
     restart: on-failure
+    volumes:
+      - ./static-files:/app/publish/wwwroot
     env_file:
       - ./.env
     ports:
@@ -39,5 +41,3 @@ services:
       - ConnectionSettings__ApiKey__DatabaseUser=root
       - ConnectionSettings__ApiKey__DatabasePassword=${DATABASE_PASSWORD}
       - AdminKey=$API_ADMIN_KEY
-    volumes:
-      - ./static-files:/app/static-files
